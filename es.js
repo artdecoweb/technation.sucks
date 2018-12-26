@@ -1,4 +1,3 @@
-
 /** @type {import('koa').Middleware} */
 const es = async (ctx, next) => {
   let e; try { await next() } catch (err) { e = err }
@@ -31,3 +30,5 @@ const es = async (ctx, next) => {
 
   if (e) throw e
 }
+
+module.exports = es
