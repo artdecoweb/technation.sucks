@@ -9,7 +9,7 @@ const client = new Client({
 
 ;(async () => {
   await client.ping()
-  const img = await readBuffer('reflex.png')
+  const img = await readBuffer('reflex.jpg')
   const { app, url } = await idio({
     async setup(ctx, next) {
       ctx.client = client
