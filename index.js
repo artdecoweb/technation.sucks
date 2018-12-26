@@ -1,6 +1,5 @@
 const idio = require('@idio/core')
 const { Client } = require('elasticsearch');
-const { sync } = require('uid-safe');
 const { readBuffer } = require('@wrote/read')
 const es = require('./es')
 
