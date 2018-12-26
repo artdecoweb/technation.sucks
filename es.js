@@ -23,6 +23,7 @@ const es = async (ctx, next) => {
   client.create({
     index: `technation.sucks-${y}.${m}`,
     type: 'hit',
+    pipeline: 'info',
     id,
     body,
   }).catch(() => {
