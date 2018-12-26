@@ -22,8 +22,8 @@ const client = new Client({
     },
     es,
     async img(ctx, next) {
-      if (ctx.path == '/reflex.png') {
-	ctx.type = 'image/png'
+      if (ctx.path == '/reflex.jpg') {
+	ctx.type = 'image/jpeg'
 	ctx.body = img
       } else {
         await next()
