@@ -1,0 +1,58 @@
+{
+  "name": "@artdeco/technation.sucks",
+  "version": "0.0.0",
+  "description": "The technation.sucks website.",
+  "main": "build/technation-sucks.js",
+  "scripts": {
+    "t": "zoroaster -a",
+    "test": "yarn t test/spec test/mask",
+    "spec": "yarn t test/spec",
+    "mask": "yarn t test/mask",
+    "test-build": "ALAMODE_ENV=test-build yarn test",
+    "lint": "eslint .",
+    "dev": "node src",
+    "prod": "git push prod",
+    "start": "node .",
+    "doc": "NODE_DEBUG=doc doc documentary -o README.md",
+    "b": "alamode src -o build -s",
+    "d": "yarn-s d1",
+    "d1": "NODE_DEBUG=doc doc src/index.js -g",
+    "build": "yarn-s d b doc",
+    "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
+    "e": "node example",
+    "example/": "yarn e example/example.js"
+  },
+  "files": [
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/artdecoweb/technation.sucks.git"
+  },
+  "keywords": [
+    "technation.sucks",
+    "artdeco"
+  ],
+  "author": "Anton <anton@adc.sh>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/artdecoweb/technation.sucks/issues"
+  },
+  "homepage": "https://github.com/artdecoweb/technation.sucks#readme",
+  "devDependencies": {
+    "alamode": "1.6.0",
+    "documentary": "1.20.1",
+    "eslint-config-artdeco": "1.0.1",
+    "yarn-s": "1.1.0",
+    "zoroaster": "3.6.6"
+  },
+  "dependencies": {
+    "@artdeco/clean-stack": "1.0.0",
+    "@idio/core": "1.0.2",
+    "@idio/elastic": "0.2.0",
+    "africa": "1.2.0",
+    "elasticsearch": "15.2.0",
+    "erte": "1.1.4",
+    "rqt": "3.0.0"
+  }
+}
