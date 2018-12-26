@@ -41,7 +41,8 @@
   "homepage": "https://github.com/artdecoweb/technation.sucks#readme",
   "dependencies": {
     "@idio/core": "1.0.2",
+    "@wrote/read": "1.0.0",
     "elasticsearch": "15.2.0",
-    "uid-safe": "1.1.4"
+    "uid-safe": "2.1.15"
   }
 }

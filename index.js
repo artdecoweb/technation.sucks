@@ -40,6 +40,14 @@ const es = async (ctx, next) => {
 
 ;(async () => {
   const { app, url } = await idio({
+    async setup() {
+      ctx.client = client
+      ctx.index = 'technation.sucks'
+      ctx.appName = 'technation.sucks'
+    },
+    compress: {
+      use: true,
+    },
     es,
     async img(ctx, next) {
       await next()
