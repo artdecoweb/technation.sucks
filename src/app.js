@@ -1,6 +1,7 @@
 import idio from '@idio/core'
 import { Client } from 'elasticsearch'
 import { c } from 'erte'
+import staticCache from 'koa-static-cache'
 import es from './es'
 
 const host = `${process.env.ELASTIC}:9200`
@@ -10,14 +11,16 @@ const client = new Client({
   host,
 })
 
-const MIN = 1000 * 60
-const HOUR = 60 * MIN
-const DAY = 24 * HOUR
-
 ;(async () => {
   await client.ping()
   console.log('Connected to %s', c(host, 'red'))
-  const { app, url } = await idio({
+  const sc = staticCache('static', {
+    gzip: true,
+  })
+  const { url } = await idio({
+    logger: {
+      use: PROD,
+    },
     async setup(ctx, next) {
       ctx.client = client
       ctx.index = 'technation.sucks'
@@ -25,19 +28,10 @@ const DAY = 24 * HOUR
       await next()
     },
     es,
-    compress: {
-      use: true,
-    },
-    static: {
-      use: true,
-      root: 'static',
-      config: {
-        maxage: PROD ? 7 * DAY : 0,
-      },
-    },
+    sc,
     redirect(ctx) {
       ctx.redirect('https://www.technation.sucks')
     },
-  })
+  }, { port: process.env.PORT })
   console.log('Started on %s', c(url, 'green'))
 })()
