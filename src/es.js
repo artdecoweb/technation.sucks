@@ -1,4 +1,4 @@
-const { sync } = require('uid-safe');
+import { sync } from 'uid-safe'
 
 /** @type {import('koa').Middleware} */
 const es = async (ctx, next) => {
@@ -34,4 +34,4 @@ const es = async (ctx, next) => {
   if (e) throw e
 }
 
-module.exports = es
+export default es

@@ -10,11 +10,11 @@
     "mask": "yarn t test/mask",
     "test-build": "ALAMODE_ENV=test-build yarn test",
     "lint": "eslint .",
-    "dev": "node src",
     "prod": "git push prod",
-    "start": "node .",
+    "start": "node build/app",
+    "dev": "node src",
     "doc": "NODE_DEBUG=doc doc documentary -o README.md",
-    "b": "alamode src -o build -s",
+    "b": "alamode src -o build -s -i index.js",
     "d": "yarn-s d1",
     "d1": "NODE_DEBUG=doc doc src/index.js -g",
     "build": "yarn-s d b doc",
@@ -43,6 +43,10 @@
     "@idio/core": "1.0.2",
     "@wrote/read": "1.0.0",
     "elasticsearch": "15.2.0",
+    "erte": "1.1.4",
     "uid-safe": "2.1.5"
+  },
+  "devDependencies": {
+    "alamode": "1.6.1"
   }
 }

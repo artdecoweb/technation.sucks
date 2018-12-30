@@ -1,14 +1,18 @@
-const idio = require('@idio/core')
-const { Client } = require('elasticsearch');
-const { readBuffer } = require('@wrote/read')
-const es = require('./es')
+import idio from '@idio/core'
+import { Client } from 'elasticsearch'
+import { readBuffer } from '@wrote/read'
+import { c } from 'erte'
+import es from './es'
+
+const host = `${process.env.ELASTIC}:9200`
 
 const client = new Client({
-  host: '13.81.242.64:9200',
+  host,
 })
 
 ;(async () => {
   await client.ping()
+  console.log('Connected to %s', c(host, 'red'))
   const img = await readBuffer('reflex.jpg')
   const { app, url } = await idio({
     async setup(ctx, next) {
@@ -23,8 +27,8 @@ const client = new Client({
     es,
     async img(ctx, next) {
       if (ctx.path == '/reflex.jpg') {
-	ctx.type = 'image/jpeg'
-	ctx.body = img
+        ctx.type = 'image/jpeg'
+        ctx.body = img
       } else {
         await next()
       }
@@ -33,5 +37,5 @@ const client = new Client({
       ctx.redirect('https://www.technation.sucks')
     },
   })
-  console.log(url)
+  console.log('Started on %s', c(url, 'green'))
 })()
