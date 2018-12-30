@@ -7,7 +7,7 @@ RUN yarn
 
 COPY . .
 
-RUN yarn build
+RUN yarn b
 
 ENV NODE_ENV production
 
