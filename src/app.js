@@ -4,6 +4,7 @@ import { c } from 'erte'
 import staticCache from 'koa-static-cache'
 import linkedIn, { query, getUser, linkedInButton } from '@idio/linkedin'
 import dotenv from '@demimonde/dotenv'
+import counter from './routes/counter'
 import es from './es'
 dotenv()
 
@@ -72,6 +73,7 @@ const client = new Client({
     ${button}
     `
   })
+  router.get('/counter.svg', counter)
   app.use(router.routes())
   app.use((ctx) => {
     ctx.redirect('https://www.technation.sucks')

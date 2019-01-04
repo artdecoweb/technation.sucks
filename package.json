@@ -42,6 +42,8 @@
   "dependencies": {
     "@idio/core": "1.0.2",
     "@idio/linkedin": "1.2.0",
+    "@svag/lib": "2.0.0",
+    "@svag/window": "1.1.1",
     "elasticsearch": "15.2.0",
     "erte": "1.1.4",
     "koa-static-cache": "5.1.2",
