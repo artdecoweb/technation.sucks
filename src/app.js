@@ -18,12 +18,9 @@ const client = new Client({
 ;(async () => {
   await client.ping()
   console.log('Connected to %s', c(host, 'red'))
-  const files = {}
-  const opt = {
+  const sc = staticCache('static', {
     gzip: true,
-  }
-  const sc = staticCache('static', opt, files)
-  staticCache('node_modules/@idio/linkedin/img', opt, files)
+  })
   const { app, router, url } = await idio({
     logger: {
       use: PROD,
