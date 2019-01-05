@@ -15,9 +15,22 @@ const counter = async (ctx) => {
     body: {
       query: {
         bool: {
-          should: [
-            { match: { path:  'reflex.jpg' } },
+          must: [
+            {
+              bool: {
+                should: [
+                  // first version
+                  { match: { path:  'reflex.png' } },
+                  // second version
+                  { match: { path:  'reflex.jpg' } },
+                ],
+              },
+            },
+            { match: { status:  200 } },
             { match: { 'headers.referer':  'www.technation.sucks' } },
+          ],
+          must_not: [
+            { match: { 'headers.from':  'googlebot' } },
           ],
         },
       },
