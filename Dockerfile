@@ -7,8 +7,6 @@ RUN yarn
 
 COPY . .
 
-RUN yarn b
-
 ENV NODE_ENV production
 
 CMD [ "yarn", "start" ]
