@@ -2,11 +2,15 @@ import { sync } from 'uid-safe'
 
 /** @type {import('koa').Middleware} */
 const es = async (ctx, next) => {
-  let e; try { await next() } catch (err) { e = err }
   const {
     appName: app, request: { ip, path }, headers: { cookie, ...headers },
     client, status,
   } = ctx
+  if (!client) {
+    await next()
+    return
+  }
+  let e; try { await next() } catch (err) { e = err }
   const body = {
     app,
     ip,

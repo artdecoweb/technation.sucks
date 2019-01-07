@@ -7,6 +7,24 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch Zoroaster",
+      "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
+      "console": "integratedTerminal",
+      "args": [
+        "test/spec",
+        // "test/mask",
+        "-a",
+        "-w",
+        "-t",
+        "9999999"
+      ],
+      "skipFiles": [
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Program",
       "env": {
         "PORT": "5001",

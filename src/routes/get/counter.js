@@ -75,3 +75,5 @@ const counter = async (ctx) => {
 }
 
 export default counter
+
+export const aliases = ['/counter.svg']
