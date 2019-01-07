@@ -2,30 +2,35 @@ import { sync } from 'uid-safe'
 
 /** @type {import('koa').Middleware} */
 const es = async (ctx, next) => {
-  const {
-    appName: app, request: { ip, path }, headers: { cookie, ...headers },
-    client, status,
-  } = ctx
+  const { client, appName: app } = ctx
   if (!client) {
     await next()
     return
   }
   let e; try { await next() } catch (err) { e = err }
+  const {
+    request: { ip, path },
+    headers: {
+      cookie, // eslint-disable-line no-unused-vars
+      ...headers
+    },
+    status,
+  } = ctx
+  const date = new Date()
   const body = {
     app,
     ip,
     path,
     headers,
     status,
-    date: new Date(),
+    date,
   }
-  const d = new Date()
-  const y = d.getFullYear()
-  const m = d.getMonth() + 1
+  const y = date.getFullYear()
+  const m = date.getMonth() + 1
 
   const id = sync(18)
   client.create({
-    index: `technation.sucks-${y}.${m}`,
+    index: `${app}-${y}.${m}`,
     type: 'hit',
     pipeline: 'info',
     id,
@@ -33,7 +38,7 @@ const es = async (ctx, next) => {
   }).catch(() => {
     console.log('ES PUT ERROR')
   })
-  console.log(path,id)
+  console.log(path, id)
 
   if (e) throw e
 }

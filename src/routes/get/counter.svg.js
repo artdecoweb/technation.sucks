@@ -7,11 +7,12 @@ import Window from '@svag/window'
 const counter = async (ctx) => {
   /** @type {import('elasticsearch').Client} */
   const client = ctx.client
+  const { appName } = ctx
   const { aggregations: {
     distinct_ips: { value: count },
   } } = await client.search({
     type: 'hit',
-    index: 'technation.sucks-*',
+    index: `${appName}-*`,
     body: {
       query: {
         bool: {
@@ -26,7 +27,15 @@ const counter = async (ctx) => {
                 ],
               },
             },
-            { match: { status:  200 } },
+            {
+              bool: {
+                should: [
+                  { match: { status:  200 } },
+                  // 7 Jan Bug
+                  { match: { status:  404 } },
+                ],
+              },
+            },
             { match: { 'headers.referer':  'www.technation.sucks' } },
           ],
           must_not: [
@@ -75,5 +84,3 @@ const counter = async (ctx) => {
 }
 
 export default counter
-
-export const aliases = ['/counter.svg']

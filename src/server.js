@@ -22,7 +22,7 @@ export default async ({ client, port, client_id, client_secret }) => {
     session: { use: true, keys: [process.env.SESSION_KEY] },
   }, { port })
   Object.assign(app.context, {
-    client, index: 'technation.sucks', appName: 'technation.sucks',
+    client, appName: 'technation.sucks',
   })
   linkedIn(router, {
     client_id,
