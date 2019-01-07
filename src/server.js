@@ -13,18 +13,19 @@ export default async ({ client, port, client_id, client_secret }) => {
   const sc = staticCache('static', {
     gzip: true,
   })
-  const { app, router, url } = await idio({
+  const { app, router, url, middleware } = await idio({
     logger: {
       use: PROD,
     },
     es,
     sc,
-    session: { use: true, keys: [process.env.SESSION_KEY] },
+    session: { keys: [process.env.SESSION_KEY] },
   }, { port })
   Object.assign(app.context, {
     client, appName: 'technation.sucks',
   })
   linkedIn(router, {
+    session: middleware.session,
     client_id,
     client_secret,
     scope: 'r_liteprofile,r_basicprofile',
@@ -50,7 +51,9 @@ export default async ({ client, port, client_id, client_secret }) => {
       ctx.redirect('/comments')
     },
   })
-  await initRoutes(router)
+  await initRoutes(router, undefined, {
+    middleware,
+  })
   app.use(router.routes())
   app.use((ctx) => {
     ctx.redirect('https://www.technation.sucks')

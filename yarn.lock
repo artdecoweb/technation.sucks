@@ -59,10 +59,10 @@
     "@wrote/read" "1.0.0"
     rqt "3.0.1"
 
-"@idio/router@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@idio/router/-/router-1.0.0.tgz#b23633b8e0fb1c828d7ce1c4b7eb8bc5aa83abb8"
-  integrity sha512-PTkzXxyif4tYPiSaMGmwHCgbg8duQAD4oRppSXQdQPvM1sAR+kNbzpAkaabF+KGQ/xNdjhkPWQUTFCLiAB0i5w==
+"@idio/router@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@idio/router/-/router-1.1.0.tgz#3176cea469ec9ed3f493cce76a760acb55abc86c"
+  integrity sha512-njDy7mUA6h+MJWpv4u+99A9gsQLt0OTgGlpItk1DeP+uqkDFLOK3PElN5LlWJUyWQWMJv8GXg69VAGBeEMih6A==
   dependencies:
     "@wrote/read-dir-structure" "1.0.1"
 
