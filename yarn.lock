@@ -51,10 +51,10 @@
     koa-static "5.0.0"
     server-destroy "1.0.1"
 
-"@idio/linkedin@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@idio/linkedin/-/linkedin-1.2.0.tgz#b53d4b84aa65cbd327018e21709fbf0d50e180e3"
-  integrity sha512-lmarUvxdj5FD3trwe5MQpMZ6F8YG8TPVmpOhJf5kCL/K+kG/HakceKcT6Gjdhd2KGGKd3ymMQSodAimEFyAwDg==
+"@idio/linkedin@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@idio/linkedin/-/linkedin-1.3.0.tgz#64a4e3cd19e0b04a4bd9724c352efb278d9dd220"
+  integrity sha512-nq5nbeeKKz99XVDi6TvFAGAOL9c6eEGxL/Ngyi1HI1bRlf5tiZc6SQdVrpIFlRsEX9Ja5V0/Qb44B9wdvJfHgg==
   dependencies:
     "@wrote/read" "1.0.0"
     rqt "3.0.1"
