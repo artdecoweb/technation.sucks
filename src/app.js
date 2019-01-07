@@ -11,12 +11,18 @@ const client = new Client({
 })
 
 ;(async () => {
-  await client.ping()
-  console.log('Connected to %s', c(host, 'red'))
-  const { url } = await Server({
-    client, port: process.env.PORT,
-    client_id: process.env.LINKEDIN_ID,
-    client_secret: process.env.LINKEDIN_SECRET,
-  })
-  console.log('Started on %s', c(url, 'green'))
+  try {
+    await client.ping({
+      requestTimeout: 10000,
+    })
+    console.log('Connected to %s', c(host, 'red'))
+    const { url } = await Server({
+      client, port: process.env.PORT,
+      client_id: process.env.LINKEDIN_ID,
+      client_secret: process.env.LINKEDIN_SECRET,
+    })
+    console.log('Started on %s', c(url, 'green'))
+  } catch ({ stack }) {
+    console.log(stack)
+  }
 })()
