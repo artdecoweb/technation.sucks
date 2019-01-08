@@ -1,6 +1,7 @@
 {
   "extends": "artdeco",
   "rules": {
-    "quotes": 0
+    "quotes": 0,
+    "quote-props": 0
   }
 }

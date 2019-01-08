@@ -21,7 +21,7 @@ const client = new Client({
       client_id: process.env.LINKEDIN_ID,
       client_secret: process.env.LINKEDIN_SECRET,
     })
-    console.log('Started on %s', c(url, 'green'))
+    console.log('Started on %s/comments', c(url, 'green'))
   } catch ({ stack }) {
     console.log(stack)
   }

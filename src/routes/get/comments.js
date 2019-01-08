@@ -1,20 +1,33 @@
-import { linkedInButton } from '@idio/linkedin'
-
-export default async (ctx, next) => {
-  const { user } = ctx.session
-  if (!user) {
-    const { button, idioCommon, style } = await linkedInButton()
-    ctx.body = `<style>
-      ${idioCommon}
-      ${style}
-    </style>
-    ${button}`
-    return
-  }
-  const img = `<img src="${user.profilePicture}" width="50">`
-  ctx.body = `
-  <div class="User">
-    ${img} Hello, ${user.firstName} ${user.lastName}!
-    <a href="/signout">Sign out</a>
-  </div>`
+const template = (content) => {
+  return `<!doctype html>
+<html>
+  <head>
+    <title>Comments</title>
+  </head>
+  <body>
+  ${content}
+  <script src="https://unpkg.com/unfetch/polyfill"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/preact/8.4.2/preact.min.js" integrity="sha256-PlZR9F40jop06jDR6IgvCXP2vZl4pnOdhqWDW8dqO8w=" crossorigin="anonymous"></script>
+  <!--<script type="module" src="/comments.js"></script>-->
+  <script src="/closure.js"></script>
+  </body>
+</html>`
 }
+
+export default (ctx) => {
+  const user = JSON.stringify(ctx.session.user, null, 2)
+  const { csrf } = ctx
+  const auth = user ? `<form action="/signout" method="post">
+  <input name="_csrf" type="hidden" value="${csrf}">
+  <button type="submit">Sign Out</button>
+  </form>` : '<a href="/auth/linkedin">Sign In</a>'
+  const User = ctx.session.user ? `<pre>${user}</pre>` : ''
+  ctx.body = template(`
+    ${User}
+    ${auth}
+    <div id="preact"></div>`
+  )
+}
+
+export const middleware = (route) =>
+  ['csrf', route]
