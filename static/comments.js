@@ -1,6 +1,9 @@
 /* eslint-env browser */
 import LinkedIn from './comments/LinkedIn.js'
 import User from './comments/User.js'
+import fetch2 from './comments/fetch.js'
+
+if (!('fetch' in window)) window.fetch = fetch2
 
 const { Component, h, render } = window.preact
 
@@ -29,11 +32,6 @@ class App extends Component {
     })
   }
   async auth() {
-    // const {
-    //   'user': user,
-    //   'positions': positions,
-    //   'csrf': csrf,
-    // } = await getUser()
     const auth = await getUser()
     this.setState({
       auth,
@@ -45,14 +43,11 @@ class App extends Component {
   async postMessageListener(event) {
     const { data, origin } = event
     if (origin != this.props.host) return
-    if (data == 'linkedin-signedin') {
+    if (data == 'linkedin-signedin')
       await this.auth()
-    }
   }
   componentWillUnmount() {
-    if (this.listener) {
-      window.removeEventListener('message', this.postMessageListener)
-    }
+    window.removeEventListener('message', this.postMessageListener)
   }
   render() {
     if (this.state.loading)

@@ -6,19 +6,18 @@ const template = (content) => {
   </head>
   <body>
   ${content}
-  <script src="https://unpkg.com/unfetch/polyfill"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/preact/8.4.2/preact.min.js" integrity="sha256-PlZR9F40jop06jDR6IgvCXP2vZl4pnOdhqWDW8dqO8w=" crossorigin="anonymous"></script>
   <!--<script type="module" src="/comments.js"></script>-->
-  <script src="/closure.js"></script>
+  <script src="/bundle.js"></script>
   </body>
 </html>`
 }
 
 export default (ctx) => {
   const user = JSON.stringify(ctx.session.user, null, 2)
-  const { csrf } = ctx
+  const { csrf } = ctx.session
   const auth = user ? `<form action="/signout" method="post">
-  <input name="_csrf" type="hidden" value="${csrf}">
+  <input name="csrf" type="hidden" value="${csrf}">
   <button type="submit">Sign Out</button>
   </form>` : '<a href="/auth/linkedin">Sign In</a>'
   const User = ctx.session.user ? `<pre>${user}</pre>` : ''
@@ -30,4 +29,4 @@ export default (ctx) => {
 }
 
 export const middleware = (route) =>
-  ['csrf', route]
+  ['session', route]

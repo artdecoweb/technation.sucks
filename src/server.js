@@ -2,6 +2,7 @@ import idio from '@idio/core'
 import initRoutes, { watchRoutes } from '@idio/router'
 import staticCache from 'koa-static-cache'
 import linkedIn, { query, getUser } from '@idio/linkedin'
+import { sync } from 'uid-safe'
 import es from './es'
 
 const PROD = process.env.NODE_ENV == 'production'
@@ -26,6 +27,7 @@ const makeLinkedinFinish = (redirect) => {
     ctx.session.positions = positions
     ctx.session.token = token
     ctx.session.user = getUser(user)
+    ctx.session.csrf = sync(18)
     ctx.redirect(redirect)
   }
 }
@@ -46,19 +48,15 @@ export default async ({
     },
     es,
     sc,
-    static: { use: true, root: 'static2' },
+    /** @type {import('koa').Middleware} */
+    async sourceMaps(ctx, next) {
+      if (ctx.path.endsWith('.js'))
+        ctx.set('SourceMap', `${ctx.path}.map`)
+      await next()
+    },
+    static: { use: true, root: 'closure' },
     session: { keys: [process.env.SESSION_KEY] },
     bodyparser: {},
-    csrfToken: {
-      middlewareConstructor() {
-        return async (ctx, next) => {
-          ctx.request.body = ctx.request.body || {}
-          ctx.request.body._csrf = ctx.req.body._csrf
-          await next()
-        }
-      },
-    },
-    csrf: {},
   }, { port })
   Object.assign(app.context, {
     client, appName: 'technation.sucks',
@@ -81,7 +79,7 @@ export default async ({
     path: '/linkedin',
     finish: makeLinkedinFinish('/callback'),
   })
-  const w = await initRoutes(router, undefined, {
+  const w = await initRoutes(router, 'routes', {
     middleware,
   })
   if (watch) watchRoutes(w)

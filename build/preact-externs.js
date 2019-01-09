@@ -15,7 +15,11 @@ preact.Component.prototype = {
   "linkState": function () {},
   "setState": function () {},
   "forceUpdate": function () {},
-  "render": function () {}
+  "render": function () {},
+  "props": {},
+  "state": {},
+  "componentDidMount": function () {},
+  "componentWillUnmount": function () {},
 };
 /**********************************************************************
  * End Generated Extern for preact

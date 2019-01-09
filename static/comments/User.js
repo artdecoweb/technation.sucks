@@ -8,14 +8,13 @@ const signOut = async (csrf) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ _csrf: csrf }),
+    body: JSON.stringify({ csrf }),
   })
-  if (!r.ok) return false
   try {
-    const { ok } = await r.json()
-    return !!ok
+    const { error } = await r.json()
+    if (error) return error
   } catch (err) {
-    return false
+    return 'unknown error'
   }
 }
 
@@ -27,7 +26,7 @@ const User = ({ user: {
     ` Hello, ${firstName} ${lastName}! `,
     h('a', { href: '#', async onclick() {
       const res = await signOut(csrf)
-      if (!res) alert('Could not sign out. Please refresh the page and try again. Alternatively, clear your cookies.')
+      if (res) alert(`Could not sign out: ${res}. Please refresh the page and try again. Alternatively, clear your cookies.`)
       else onSignout()
     } }, 'Sign Out')
   )
