@@ -21,7 +21,12 @@ export default async ({
   const c = cors({
     origin(ctx) {
       const origin = ctx.get('Origin')
-      const found = ['http://localhost:5000', 'http://localhost:5001', 'https://www.technation.sucks', 'https://technation.sucks'].find(a => a == origin)
+      const found = [
+        'http://localhost:5000',
+        'http://localhost:5001',
+        'https://www.technation.sucks',
+        'https://technation.sucks',
+      ].find(a => a == origin)
       return found
     },
     credentials: true,

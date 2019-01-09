@@ -1,21 +1,11 @@
 /* eslint-env browser */
 import LinkedIn from './comments/LinkedIn.js'
 import User from './comments/User.js'
-import fetch2 from './comments/fetch.js'
-
-if (!('fetch' in window)) window.fetch = fetch2
+import callbackFetch from './comments/fetch.js'
 
 const { Component, h, render } = window.preact
 
 const HOST = 'http://localhost:5000'
-
-const getUser = async (host) => {
-  const r = await fetch(`${host}/user`, {
-    credentials: 'include',
-  })
-  const j = await r.json()
-  return j
-}
 
 class App extends Component {
   constructor() {
@@ -28,37 +18,36 @@ class App extends Component {
     this.postMessageListener = this.postMessageListener.bind(this)
     window.addEventListener('message', this.postMessageListener, false)
   }
-  async componentDidMount() {
-    try {
-      await this.auth()
-    } catch ({ message: error }) {
-      this.setState({ error })
-    }
-    this.setState({
-      loading: false,
-    })
+  componentDidMount() {
+    this.auth()
   }
-  async auth() {
-    const auth = await getUser(this.props.host)
-    this.setState({
-      auth,
+  auth() {
+    this.setState({ loading: true })
+    callbackFetch(`${this.props.host}/user`, (error, res) => {
+      this.setState({ loading: false })
+      if (error) {
+        return this.setState({ error })
+      }
+      const auth = res.json()
+      this.setState({ auth })
+    }, {
+      credentials: 'include',
     })
   }
   /**
    * @param {MessageEvent} event
    */
-  async postMessageListener(event) {
+  postMessageListener(event) {
     const { data, origin } = event
     if (origin != this.props.host) return
-    if (data == 'linkedin-signedin')
-      await this.auth()
+    if (data == 'linkedin-signedin') this.auth()
   }
   componentWillUnmount() {
     window.removeEventListener('message', this.postMessageListener)
   }
   render() {
     if (this.state.error)
-      return h('div', null, 'Error: ', this.state.error)
+      return h('div', null, 'Error', this.state.error ? `: ${this.state.error}` : '')
     if (this.state.loading)
       return h('div', null, 'Loading...')
     //return <div>Loading...</div>

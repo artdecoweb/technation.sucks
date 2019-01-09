@@ -1,8 +1,13 @@
 /* eslint-env browser */
 const { h } = window.preact
+import callbackFetch from './fetch.js'
 
-const signOut = async (host, csrf) => {
-  const r = await fetch(`${host}/signout`, {
+const signOut = (host, csrf, cb) => {
+  callbackFetch(`${host}/signout`, (err, res) => {
+    if (err) return cb(err.message)
+    const { error } = res.json()
+    cb(error)
+  }, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -11,12 +16,6 @@ const signOut = async (host, csrf) => {
     body: JSON.stringify({ csrf }),
     credentials: 'include',
   })
-  try {
-    const { error } = await r.json()
-    if (error) return error
-  } catch (err) {
-    return 'unknown error'
-  }
 }
 
 const User = ({ user: {
@@ -25,10 +24,11 @@ const User = ({ user: {
   return h('div', { class: 'CommentsUser' },
     h('img', { src: profilePicture, width: 50 }),
     ` Hello, ${firstName} ${lastName}! `,
-    h('a', { href: '#', async onclick() {
-      const res = await signOut(host, csrf)
-      if (res) alert(`Could not sign out: ${res}. Please refresh the page and try again. Alternatively, clear your cookies.`)
-      else onSignout()
+    h('a', { href: '#', onclick() {
+      signOut(host, csrf, (err) => {
+        if (err) alert(`Could not sign out: ${err}. Please refresh the page and try again. Alternatively, clear your cookies.`)
+        else onSignout()
+      })
     } }, 'Sign Out')
   )
 }
