@@ -1,4 +1,5 @@
-const template = (content) => {
+const template = (content, prod) => {
+  const closureBundle = prod ? 'https://technation.sucks/comments.js' : '/bundle.js'
   return `<!doctype html>
 <html>
   <head>
@@ -8,12 +9,13 @@ const template = (content) => {
   ${content}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/preact/8.4.2/preact.min.js" integrity="sha256-PlZR9F40jop06jDR6IgvCXP2vZl4pnOdhqWDW8dqO8w=" crossorigin="anonymous"></script>
   <!--<script type="module" src="/comments.js"></script>-->
-  <script src="/bundle.js"></script>
+  <script src="${closureBundle}"></script>
   </body>
 </html>`
 }
 
 export default (ctx) => {
+  const { prod } = ctx
   const user = JSON.stringify(ctx.session.user, null, 2)
   const { csrf } = ctx.session
   const auth = user ? `<form action="/signout" method="post">
@@ -24,8 +26,7 @@ export default (ctx) => {
   ctx.body = template(`
     ${User}
     ${auth}
-    <div id="preact"></div>`
-  )
+    <div id="preact"></div>`, prod)
 }
 
 export const middleware = (route) =>

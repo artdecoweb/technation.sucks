@@ -49,6 +49,7 @@ export default async ({
     bodyparser: {},
   }, { port })
   Object.assign(app.context, {
+    prod: PROD,
     client, appName: 'technation.sucks',
   })
   const li = {
