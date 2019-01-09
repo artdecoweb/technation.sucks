@@ -24,11 +24,13 @@ const User = ({ user: {
   return h('div', { class: 'CommentsUser' },
     h('img', { src: profilePicture, width: 50 }),
     ` Hello, ${firstName} ${lastName}! `,
-    h('a', { href: '#', onclick() {
+    h('a', { href: '#', onclick(e) {
+      e.preventDefault()
       signOut(host, csrf, (err) => {
         if (err) alert(`Could not sign out: ${err}. Please refresh the page and try again. Alternatively, clear your cookies.`)
         else onSignout()
       })
+      return false
     } }, 'Sign Out')
   )
 }

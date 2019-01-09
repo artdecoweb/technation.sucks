@@ -1,68 +1,10 @@
-/* eslint-env browser */
-import LinkedIn from './comments/LinkedIn.js'
-import User from './comments/User.js'
-import callbackFetch from './comments/fetch.js'
-
-const { Component, h, render } = window.preact
-
-const HOST = 'http://localhost:5000'
-
-class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      loading: true,
-      error: null,
-      auth: {},
-    }
-    this.postMessageListener = this.postMessageListener.bind(this)
-    window.addEventListener('message', this.postMessageListener, false)
-  }
-  componentDidMount() {
-    this.auth()
-  }
-  auth() {
-    this.setState({ loading: true })
-    callbackFetch(`${this.props.host}/user`, (error, res) => {
-      this.setState({ loading: false })
-      if (error) {
-        return this.setState({ error })
-      }
-      const auth = res.json()
-      this.setState({ auth })
-    }, {
-      credentials: 'include',
-    })
-  }
-  /**
-   * @param {MessageEvent} event
-   */
-  postMessageListener(event) {
-    const { data, origin } = event
-    if (origin != this.props.host) return
-    if (data == 'linkedin-signedin') this.auth()
-  }
-  componentWillUnmount() {
-    window.removeEventListener('message', this.postMessageListener)
-  }
-  render() {
-    if (this.state.error)
-      return h('div', null, 'Error', this.state.error ? `: ${this.state.error}` : '')
-    if (this.state.loading)
-      return h('div', null, 'Loading...')
-    //return <div>Loading...</div>
-    if (!this.state.auth.user)
-      return h('div', null, h(LinkedIn, { host: this.props.host }))
-    return h('div', null, h(User, {
-      ...this.state.auth,
-      onSignout: () => {
-        this.setState({
-          auth: {},
-        })
-      },
-      host: this.props.host,
-    }))
-  }
-}
-
-render(h(App, { host: HOST }), document.getElementById('preact'))
+var g="function"==typeof Object.create?Object.create:function(a){function b(){}b.prototype=a;return new b},h;if("function"==typeof Object.setPrototypeOf)h=Object.setPrototypeOf;else{var k;a:{var m={g:!0},n={};try{n.__proto__=m;k=n.g;break a}catch(a){}k=!1}h=k?function(a,b){a.__proto__=b;if(a.__proto__!==b)throw new TypeError(a+" is not extensible");return a}:null}
+var p=h,q="function"==typeof Object.assign?Object.assign:function(a,b){for(var c=1;c<arguments.length;c++){var f=arguments[c];if(f)for(var d in f)Object.prototype.hasOwnProperty.call(f,d)&&(a[d]=f[d])}return a},u="function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){a!=Array.prototype&&a!=Object.prototype&&(a[b]=c.value)},v="undefined"!=typeof window&&window===this?this:"undefined"!=typeof global&&null!=global?global:this;
+function w(a){if(a){for(var b=v,c=["Object","assign"],f=0;f<c.length-1;f++){var d=c[f];d in b||(b[d]={});b=b[d]}c=c[c.length-1];f=b[c];a=a(f);a!=f&&null!=a&&u(b,c,{configurable:!0,writable:!0,value:a})}}w(function(a){return a||q});var x=window.preact.h;
+function y(a){var b=void 0===a.size?"medium":a.size,c=a.host,f=void 0===a.i?"/linkedin":a.i,d;"medium"==b?d=1.5:"large"==b&&(d=2);return x("a",{onclick:function(a){a.preventDefault();window.open(""+c+f,"Sign in","height=610,width=500,top="+(window.top.outerHeight/2+window.top.screenY-305)+",left="+(window.top.outerWidth/2+window.top.screenX-250));return!1},onmouseover:function(a){a.currentTarget.style.background="#0369A0"},onmouseout:function(a){a.currentTarget.style.background="#0077B5"},style:"\n      background: #0077B5;\n      display: table;\n      border-radius: 3px;\n      font-family: Helvetica Neue,Helvetica,Arial,sans-serif;\n      text-decoration: none;\n      color: white;\n      cursor: pointer;"},
+x("div",{style:"\n      font-family: 'Myriad Pro', 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;\n      font-size: "+d+"rem;\n      padding-left: 6px;\n      padding-right: 5px;\n      border-right: 1px solid #0369A0;\n      border-radius: 3px;\n      font-weight: 600;\n      background: #0077B5;\n      display: table-cell;\n      vertical-align: middle;"},"in"),x("div",{style:"\n      padding-left:0.5em; padding-right:0.5em;font-size:smaller;\n      display: table-cell;\n      vertical-align: middle;"},
+"Sign In With LinkedIn"))};function z(a,b,c){function f(){var a=[],c=[],b={},d;e.getAllResponseHeaders().replace(/^(.*?):[^\S\n]*([\s\S]*?)$/gm,function(f,e,l){a.push(e=e.toLowerCase());c.push([e,l]);d=b[e];b[e]=d?d+","+l:l});return{ok:2==(e.status/100|0),status:e.status,statusText:e.statusText,url:e.responseURL,clone:f,text:function(){return e.responseText},json:function(){return JSON.parse(e.responseText)},blob:function(){return new Blob([e.response])},headers:{keys:function(){return a},entries:function(){return c},get:function(a){return b[a.toLowerCase()]},
+has:function(a){return a.toLowerCase()in b}}}}c=void 0===c?{}:c;var d=void 0===c.headers?{}:c.headers,r=c.credentials,t=void 0===c.body?null:c.body,e=new XMLHttpRequest;e.open(void 0===c.method?"get":c.method,a,!0);for(var l in d)e.setRequestHeader(l,d[l]);e.withCredentials="include"==r;e.onload=function(){b(null,f())};e.onerror=b;e.send(t)};var A=window.preact.h;function B(a,b,c){z(a+"/signout",function(a,b){if(a)return c(a.message);a=b.json().error;c(a)},{method:"POST",headers:{j:"application/json","Content-Type":"application/json"},body:JSON.stringify({csrf:b}),credentials:"include"})}
+function C(a){var b=a.user,c=b.firstName,f=b.lastName,d=a.csrf,r=void 0===a.f?function(){}:a.f,t=a.host;return A("div",{m:"CommentsUser"},A("img",{src:b.profilePicture,width:50})," Hello, "+c+" "+f+"! ",A("a",{href:"#",onclick:function(a){a.preventDefault();B(t,d,function(a){a?alert("Could not sign out: "+a+". Please refresh the page and try again. Alternatively, clear your cookies."):r()});return!1}},"Sign Out"))};var D=window.preact,E=D.Component,F=D.h,G=D.render;function H(){var a=E.call(this)||this;a.state={c:!0,error:null,a:{}};a.b=a.b.bind(a);window.addEventListener("message",a.b,!1);return a}H.prototype=g(E.prototype);H.prototype.constructor=H;if(p)p(H,E);else for(var I in E)if("prototype"!=I)if(Object.defineProperties){var J=Object.getOwnPropertyDescriptor(E,I);J&&Object.defineProperty(H,I,J)}else H[I]=E[I];H.l=E.prototype;H.prototype.componentDidMount=function(){this.a()};
+H.prototype.a=function(){var a=this;this.setState({c:!0});z(this.props.host+"/user",function(b,c){a.setState({c:!1});if(b)return a.setState({error:b});b=c.json();a.setState({a:b})},{credentials:"include"})};H.prototype.b=function(a){a.origin==this.props.host&&"linkedin-signedin"==a.data&&this.a()};H.prototype.componentWillUnmount=function(){window.removeEventListener("message",this.b)};
+H.prototype.render=function(){var a=this;return this.state.error?F("div",null,"Error",this.state.error?": "+this.state.error:""):this.state.c?F("div",null,"Loading..."):this.state.a.user?F("div",null,F(C,Object.assign({},this.state.a,{f:function(){a.setState({a:{}})},host:this.props.host}))):F("div",null,F(y,{host:this.props.host}))};G(F(H,{host:"https://technation.sucks"}),document.getElementById("preact"));
