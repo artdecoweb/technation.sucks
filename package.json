@@ -43,6 +43,7 @@
     "@idio/core": "1.0.2",
     "@idio/linkedin": "1.4.0",
     "@idio/router": "1.2.0",
+    "@koa/cors": "2.2.3",
     "@svag/lib": "2.0.0",
     "@svag/window": "1.1.1",
     "elasticsearch": "15.2.0",

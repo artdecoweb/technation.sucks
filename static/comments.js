@@ -9,8 +9,10 @@ const { Component, h, render } = window.preact
 
 const HOST = 'http://localhost:5000'
 
-const getUser = async () => {
-  const r = await fetch('/user')
+const getUser = async (host) => {
+  const r = await fetch(`${host}/user`, {
+    credentials: 'include',
+  })
   const j = await r.json()
   return j
 }
@@ -20,19 +22,24 @@ class App extends Component {
     super()
     this.state = {
       loading: true,
+      error: null,
       auth: {},
     }
     this.postMessageListener = this.postMessageListener.bind(this)
     window.addEventListener('message', this.postMessageListener, false)
   }
   async componentDidMount() {
-    await this.auth()
+    try {
+      await this.auth()
+    } catch ({ message: error }) {
+      this.setState({ error })
+    }
     this.setState({
       loading: false,
     })
   }
   async auth() {
-    const auth = await getUser()
+    const auth = await getUser(this.props.host)
     this.setState({
       auth,
     })
@@ -50,6 +57,8 @@ class App extends Component {
     window.removeEventListener('message', this.postMessageListener)
   }
   render() {
+    if (this.state.error)
+      return h('div', null, 'Error: ', this.state.error)
     if (this.state.loading)
       return h('div', null, 'Loading...')
     //return <div>Loading...</div>
@@ -62,6 +71,7 @@ class App extends Component {
           auth: {},
         })
       },
+      host: this.props.host,
     }))
   }
 }

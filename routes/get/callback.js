@@ -11,7 +11,7 @@ export default (ctx) => {
     ${error ? 'You have not authorised the app. ' : ''}Please close this window if not closed automatically in the next 60 seconds.
   </p>
   <script>
-    window.opener.postMessage('${error ? 'linkedin-error' : 'linkedin-signedin'}')
+    window.opener.postMessage('${error ? 'linkedin-error' : 'linkedin-signedin'}', '*')
     window.close()
   </script>
 </body>

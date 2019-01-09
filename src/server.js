@@ -1,36 +1,12 @@
 import idio from '@idio/core'
 import initRoutes, { watchRoutes } from '@idio/router'
 import staticCache from 'koa-static-cache'
-import linkedIn, { query, getUser } from '@idio/linkedin'
-import { sync } from 'uid-safe'
+import linkedIn from '@idio/linkedin'
+import cors from '@koa/cors'
+import { makeLinkedinFinish } from './lib'
 import es from './es'
 
 const PROD = process.env.NODE_ENV == 'production'
-
-const makeLinkedinFinish = (redirect) => {
-  return async (ctx, token, user) => {
-    const { positions: { values: pos } } = await query({
-      token,
-      path: 'people/~:(positions)',
-      version: 'v1',
-    })
-    const positions = pos.map(({
-      title,
-      company: { id, name },
-      location: { name: location } ,
-    }) => {
-      return {
-        id, name, title,
-        location: location.replace(/,\s*$/, ''),
-      }
-    })
-    ctx.session.positions = positions
-    ctx.session.token = token
-    ctx.session.user = getUser(user)
-    ctx.session.csrf = sync(18)
-    ctx.redirect(redirect)
-  }
-}
 
 /**
  * Starts the server.
@@ -42,7 +18,16 @@ export default async ({
   const sc = staticCache('static', {
     gzip: true,
   })
+  const c = cors({
+    origin(ctx) {
+      const origin = ctx.get('Origin')
+      const found = ['http://localhost:5000', 'http://localhost:5001', 'https://www.technation.sucks', 'https://technation.sucks'].find(a => a == origin)
+      return found
+    },
+    credentials: true,
+  })
   const { app, router, url, middleware } = await idio({
+    c,
     logger: {
       use: PROD,
     },
