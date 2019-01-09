@@ -7,7 +7,11 @@ const LinkedIn = ({ size = 'medium', host, signinLink = '/linkedin' }) => {
   else if (size == 'large') r = 2
   return h('a', {
     onclick() {
-      window.open(`${host}${signinLink}`, 'Sign in', 'height=610,width=500')
+      const height = 610
+      const w = 500
+      const y = window.top.outerHeight / 2 + window.top.screenY - ( height / 2)
+      const x = window.top.outerWidth / 2 + window.top.screenX - ( w / 2)
+      window.open(`${host}${signinLink}`, 'Sign in', `height=${height},width=${w},top=${y},left=${x}`)
     },
     onmouseover(e) {
       e.currentTarget.style.background = '#0369A0'
