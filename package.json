@@ -52,6 +52,7 @@
     "uid-safe": "2.1.5"
   },
   "devDependencies": {
+    "@a-la/jsx": "1.0.0",
     "@demimonde/dotenv": "1.0.0",
     "@wrote/read": "1.0.0",
     "@wrote/write": "1.0.0",

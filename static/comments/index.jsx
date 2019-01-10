@@ -1,6 +1,6 @@
 /* eslint-env browser */
-import LinkedIn from './LinkedIn.js'
-import User from './User.js'
+import LinkedIn from './LinkedIn.jsx'
+import User from './User.jsx'
 import callbackFetch from './fetch.js'
 
 const { Component, h, render } = window.preact
@@ -47,22 +47,19 @@ class App extends Component {
   }
   render() {
     if (this.state.error)
-      return h('div', null, 'Error', this.state.error ? `: ${this.state.error}` : '')
+      return <div>Error: {this.state.error}</div>
     if (this.state.loading)
-      return h('div', null, 'Loading...')
-    //return <div>Loading...</div>
+      return <div>Loading...</div>
     if (!this.state.auth.user)
-      return h('div', null, h(LinkedIn, { host: this.props.host }))
-    return h('div', null, h(User, {
-      ...this.state.auth,
-      onSignout: () => {
-        this.setState({
-          auth: {},
-        })
-      },
-      host: this.props.host,
-    }))
+      return <div>
+        <LinkedIn host={this.props.host}/>
+      </div>
+    return <div>
+      <User {...this.state.auth} onSignout={() => {
+        this.setState({ auth: {} })
+      }} host={this.props.host}/>
+    </div>
   }
 }
 
-render(h(App, { host: HOST }), document.getElementById('preact'))
+render(<App host={HOST}/>, document.getElementById('preact'))

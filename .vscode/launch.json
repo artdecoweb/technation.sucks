@@ -25,7 +25,13 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Launch JSX",
+      "program": "${workspaceFolder}/test.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Server",
       "env": {
         "PORT": "5001",
       },

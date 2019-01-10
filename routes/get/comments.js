@@ -8,8 +8,8 @@ const template = (content, prod) => {
   <body>
   ${content}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/preact/8.4.2/preact.min.js" integrity="sha256-PlZR9F40jop06jDR6IgvCXP2vZl4pnOdhqWDW8dqO8w=" crossorigin="anonymous"></script>
-  <!--<script type="module" src="/comments.js"></script>-->
-  <script src="${closureBundle}"></script>
+  <script type="module" src="/comments/index.jsx"></script>
+  <!--<script src="${closureBundle}"></script>-->
   </body>
 </html>`
 }

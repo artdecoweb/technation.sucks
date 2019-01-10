@@ -19,7 +19,9 @@ export default function(url, callback, options = {}) {
     callback(null, response())
   }
 
-  request.onerror = callback
+  request.onerror = () => {
+    callback(`Could not load the resource at ${url}.`)
+  }
   request.send(body)
 
   function response() {

@@ -21,18 +21,18 @@ const signOut = (host, csrf, cb) => {
 const User = ({ user: {
   profilePicture, firstName, lastName,
 }, csrf, onSignout = () => {}, host }) => {
-  return h('div', { class: 'CommentsUser' },
-    h('img', { src: profilePicture, width: 50 }),
-    ` Hello, ${firstName} ${lastName}! `,
-    h('a', { href: '#', onclick(e) {
+  return <div>
+    <img src={profilePicture} width="50"/>
+    Hello, {firstName} {lastName}!
+    <a href="#" onClick={(e) => {
       e.preventDefault()
       signOut(host, csrf, (err) => {
         if (err) alert(`Could not sign out: ${err}. Please refresh the page and try again. Alternatively, clear your cookies.`)
         else onSignout()
       })
       return false
-    } }, 'Sign Out')
-  )
+    }}>Sign Out</a>
+  </div>
 }
 
 export default User

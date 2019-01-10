@@ -3,6 +3,9 @@ import initRoutes, { watchRoutes } from '@idio/router'
 import staticCache from 'koa-static-cache'
 import linkedIn from '@idio/linkedin'
 import cors from '@koa/cors'
+import { join } from 'path'
+import read from '@wrote/read'
+import transpileJSX from '@a-la/jsx'
 import { makeLinkedinFinish } from './lib'
 import es from './es'
 
@@ -37,6 +40,18 @@ export default async ({
       use: PROD,
     },
     es,
+    /** @type {import('koa').Middleware} */
+    async jsx(ctx, next) {
+      if (!ctx.path.endsWith('.jsx')) {
+        await next()
+        return
+      }
+      const p = join('static', ctx.path)
+      const r = await read(p)
+      const jsx = transpileJSX(r)
+      ctx.type = 'text/javascript'
+      ctx.body = jsx
+    },
     sc,
     /** @type {import('koa').Middleware} */
     async sourceMaps(ctx, next) {
