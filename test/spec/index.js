@@ -8,6 +8,9 @@ const TS = {
   async 'has /comments route'({ ping }) {
     await ping('/comments')
   },
+  async 'has /reflex.jpg route'({ ping }) {
+    await ping('/reflex.jpg')
+  },
   async 'has /counter.svg route'({ ping, setClient }) {
     setClient({
       async search() {

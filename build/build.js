@@ -7,7 +7,7 @@ import clone from '@wrote/clone'
 import ensurePath from '@wrote/ensure-path'
 import transpileJSX from '@a-la/jsx'
 import TempContext from 'temp-context'
-import { join } from 'path'
+import { join, basename } from 'path'
 
 const BUILD = 'build-temp'
 
@@ -19,7 +19,7 @@ class BuildTemp extends TempContext {
 }
 
 (async () => {
-  const path = 'closure/bundle.js'
+  const path = 'closure/comments.js'
   const t = new BuildTemp()
   await t._init()
   const args = [
@@ -39,7 +39,7 @@ class BuildTemp extends TempContext {
     const { promise: promise2 } = spawn('java', args)
     const { stdout: o, stderr: e, code: c } = await promise2
     if (c) throw new Error(e)
-    await update(path, 'static/comments.js')
+    await update(path)
     if (o) console.log(o)
     if (e) console.log(e)
   } catch (err) {
@@ -64,15 +64,18 @@ const cloneSrc = async (dir, to, content) => {
       await clone(path, to)
     } else {
       const f = await read(path)
-      const res = transpileJSX(f)
+      const res = transpileJSX(f, {
+        quoteProps: true,
+      })
       await ensurePath(pathTo)
       await write(pathTo, res)
     }
   }, {})
 }
 
-const update = async (path, newPath) => {
+const update = async (path) => {
+  const name = basename(path)
   const r = await read(path)
-  const c = r.replace('http://localhost:5000', 'https://technation.sucks')
-  await write(newPath, c)
+  const c = `${r}\n//# sourceMappingURL=${name}.map`
+  await write(path, c)
 }

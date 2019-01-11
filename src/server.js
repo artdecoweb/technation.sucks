@@ -12,10 +12,9 @@ const {
   NODE_ENV,
   HOST = 'https://technation.sucks',
   FRONT_END = 'https://www.technation.sucks',
-  USE_CLOSURE = 1, // for /comments page
+  CLOSURE, // for /comments page
 } = process.env
 const PROD = NODE_ENV == 'production'
-const closureBundle = PROD ? '/comments.js' : '/bundle.js'
 
 /**
  * Starts the server.
@@ -24,9 +23,6 @@ export default async ({
   client, port, client_id, client_secret,
   watch = !PROD,
 }) => {
-  const sc = staticCache('static', {
-    gzip: true,
-  })
   const { app, router, url, middleware } = await idio({
     cors: {
       use: true,
@@ -34,6 +30,7 @@ export default async ({
       config: { credentials: true },
     },
     logger: { use: !PROD },
+    compress: { use: true },
     es,
     ...(!PROD ? {
       /** @type {import('koa').Middleware} */
@@ -49,30 +46,19 @@ export default async ({
         ctx.body = jsx
       },
     } : {}),
-    sc,
-    /** @type {import('koa').Middleware} */
-    async sourceMaps(ctx, next) {
-      if (!ctx.path.endsWith('.js')) return await next()
-      try {
-        const file = await read(join('closure', ctx.path))
-        const f = `${file}\n//# sourceMappingURL=${ctx.path}.map`
-        ctx.type = 'application/javascript'
-        ctx.body = f
-      } catch (err) {
-        await next()
-      }
-    },
+    sc: staticCache('static'),
     static: { use: true, root: ['closure', 'frontend'] },
     session: { keys: [process.env.SESSION_KEY] },
     bodyparser: {},
   }, { port })
   Object.assign(app.context, {
     prod: PROD,
-    USE_CLOSURE: PROD || USE_CLOSURE,
-    closureBundle,
+    HOST: PROD ? HOST : url,
+    CLOSURE: PROD || CLOSURE,
     client, appName: 'technation.sucks',
   })
-  if (USE_CLOSURE) console.log('Testing Closure bundle: %s', closureBundle)
+  if (CLOSURE)
+    console.log('Testing Closure bundle: %s', 'closure/comments.js')
   const li = {
     session: middleware.session,
     client_id,
@@ -101,3 +87,16 @@ export default async ({
   })
   return { app, url }
 }
+
+// /** @type {import('koa').Middleware} */
+// async sourceMaps(ctx, next) {
+//   if (!ctx.path.endsWith('.js')) return await next()
+//   try {
+//     const file = await read(join('closure', ctx.path))
+//     const f = `${file}\n//# sourceMappingURL=${ctx.path}.map`
+//     ctx.type = 'application/javascript'
+//     ctx.body = f
+//   } catch (err) {
+//     await next()
+//   }
+// },

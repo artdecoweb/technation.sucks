@@ -5,8 +5,6 @@ import callbackFetch from '../fetch.js'
 
 const { Component, h, render } = window.preact
 
-const HOST = 'http://localhost:5000'
-
 class App extends Component {
   constructor() {
     super()
@@ -62,4 +60,8 @@ class App extends Component {
   }
 }
 
-render(<App host={HOST}/>, document.getElementById('preact'))
+window['comments'] = ({
+  host = 'https://technation.sucks', container = 'preact',
+}) => {
+  render(<App host={host}/>, document.getElementById(container))
+}
