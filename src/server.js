@@ -8,11 +8,14 @@ import transpileJSX from '@a-la/jsx'
 import { makeLinkedinFinish } from './lib'
 import es from './es'
 
-const PROD = process.env.NODE_ENV == 'production'
-const BACK_END = 'https://technation.sucks'
-const FRONT_END = 'https://www.technation.sucks'
-const USE_CLOSURE = process.env.USE_CLOSURE
-const closureBundle = PROD ? `${BACK_END}/comments.js` : '/bundle.js'
+const {
+  NODE_ENV,
+  HOST = 'https://technation.sucks',
+  FRONT_END = 'https://www.technation.sucks',
+  USE_CLOSURE = 1, // for /comments page
+} = process.env
+const PROD = NODE_ENV == 'production'
+const closureBundle = PROD ? '/comments.js' : '/bundle.js'
 
 /**
  * Starts the server.
@@ -27,7 +30,7 @@ export default async ({
   const { app, router, url, middleware } = await idio({
     cors: {
       use: true,
-      origin: PROD && [FRONT_END, BACK_END],
+      origin: PROD && [FRONT_END, HOST],
       config: { credentials: true },
     },
     logger: { use: !PROD },
