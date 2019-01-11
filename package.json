@@ -40,13 +40,12 @@
   },
   "homepage": "https://github.com/artdecoweb/technation.sucks#readme",
   "dependencies": {
-    "@idio/core": "1.0.2",
+    "@idio/core": "1.1.0",
     "@idio/linkedin": "1.4.0",
     "@idio/router": "1.2.0",
-    "@koa/cors": "2.2.3",
     "@svag/lib": "2.0.0",
     "@svag/window": "1.1.1",
-    "elasticsearch": "15.2.0",
+    "elasticsearch": "15.3.0",
     "erte": "1.1.4",
     "koa-static-cache": "5.1.2",
     "uid-safe": "2.1.5"
@@ -54,11 +53,14 @@
   "devDependencies": {
     "@a-la/jsx": "1.0.0",
     "@demimonde/dotenv": "1.0.0",
+    "@wrote/clone": "1.1.0",
     "@wrote/read": "1.0.0",
+    "@wrote/read-dir-structure": "1.0.1",
     "@wrote/write": "1.0.0",
     "alamode": "1.6.1",
-    "rqt": "3.0.1",
+    "rqt": "3.0.3",
     "spawncommand": "2.1.0",
+    "temp-context": "2.1.0",
     "zoroaster": "3.6.6"
   }
 }

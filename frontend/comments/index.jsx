@@ -1,7 +1,7 @@
 /* eslint-env browser */
 import LinkedIn from './LinkedIn.jsx'
 import User from './User.jsx'
-import callbackFetch from './fetch.js'
+import callbackFetch from '../fetch.js'
 
 const { Component, h, render } = window.preact
 

@@ -31,6 +31,12 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch Build",
+      "program": "${workspaceFolder}/build/build.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Server",
       "env": {
         "PORT": "5001",

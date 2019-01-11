@@ -2,7 +2,6 @@ import idio from '@idio/core'
 import initRoutes, { watchRoutes } from '@idio/router'
 import staticCache from 'koa-static-cache'
 import linkedIn from '@idio/linkedin'
-import cors from '@koa/cors'
 import { join } from 'path'
 import read from '@wrote/read'
 import transpileJSX from '@a-la/jsx'
@@ -21,21 +20,17 @@ export default async ({
   const sc = staticCache('static', {
     gzip: true,
   })
-  const c = cors({
-    origin(ctx) {
-      const origin = ctx.get('Origin')
-      const found = [
-        'http://localhost:5000',
-        'http://localhost:5001',
+  const { app, router, url, middleware } = await idio({
+    cors: {
+      use: true,
+      origin: PROD ? [
         'https://www.technation.sucks',
         'https://technation.sucks',
-      ].find(a => a == origin)
-      return found
+      ]: '*',
+      config: {
+        credentials: true,
+      },
     },
-    credentials: true,
-  })
-  const { app, router, url, middleware } = await idio({
-    c,
     logger: {
       use: PROD,
     },
@@ -46,7 +41,7 @@ export default async ({
         await next()
         return
       }
-      const p = join('static', ctx.path)
+      const p = join('frontend', ctx.path)
       const r = await read(p)
       const jsx = transpileJSX(r)
       ctx.type = 'text/javascript'
@@ -59,7 +54,7 @@ export default async ({
         ctx.set('SourceMap', `${ctx.path}.map`)
       await next()
     },
-    static: { use: true, root: 'closure' },
+    static: { use: true, root: ['closure', 'frontend'] },
     session: { keys: [process.env.SESSION_KEY] },
     bodyparser: {},
   }, { port })
