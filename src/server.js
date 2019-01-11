@@ -26,7 +26,7 @@ export default async ({
   const { app, router, url, middleware } = await idio({
     cors: {
       use: true,
-      origin: PROD && [FRONT_END, HOST],
+      origin: PROD && [FRONT_END, HOST, 'http://localhost:5001'],
       config: { credentials: true },
     },
     logger: { use: !PROD },
