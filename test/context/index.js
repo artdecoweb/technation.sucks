@@ -8,6 +8,7 @@ export default class Context {
       port: 0,
       client_id: 'test',
       client_secret: 'test',
+      watch: false,
     })
     this.app = app
     this.url = url

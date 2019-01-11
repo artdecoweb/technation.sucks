@@ -10,7 +10,7 @@ import es from './es'
 
 const PROD = process.env.NODE_ENV == 'production'
 const WEBSITE = 'https://technation.sucks'
-const TEST_CLOSURE = process.env.TEST_CLOSURE
+const USE_CLOSURE = process.env.USE_CLOSURE
 const closureBundle = PROD ? `${WEBSITE}/comments.js` : '/bundle.js'
 
 /**
@@ -26,17 +26,10 @@ export default async ({
   const { app, router, url, middleware } = await idio({
     cors: {
       use: true,
-      origin: PROD ? [
-        'https://www.technation.sucks',
-        WEBSITE,
-      ]: '*',
-      config: {
-        credentials: true,
-      },
+      origin: PROD && ['https://www.technation.sucks', WEBSITE],
+      config: { credentials: true },
     },
-    logger: {
-      use: PROD,
-    },
+    logger: { use: PROD },
     es,
     /** @type {import('koa').Middleware} */
     async jsx(ctx, next) {
@@ -53,9 +46,15 @@ export default async ({
     sc,
     /** @type {import('koa').Middleware} */
     async sourceMaps(ctx, next) {
-      if (ctx.path.endsWith('.js'))
-        ctx.set('SourceMap', `${ctx.path}.map`)
-      await next()
+      if (!ctx.path.endsWith('.js')) return await next()
+      try {
+        const file = await read(join('closure', ctx.path))
+        const f = `${file}\n//# sourceMappingURL=${ctx.path}.map`
+        ctx.type = 'application/javascript'
+        ctx.body = f
+      } catch (err) {
+        await next()
+      }
     },
     static: { use: true, root: ['closure', 'frontend'] },
     session: { keys: [process.env.SESSION_KEY] },
@@ -63,11 +62,11 @@ export default async ({
   }, { port })
   Object.assign(app.context, {
     prod: PROD,
-    TEST_CLOSURE,
+    USE_CLOSURE,
     closureBundle,
     client, appName: 'technation.sucks',
   })
-  if (TEST_CLOSURE) console.log('Testing Closure bundle: %s', closureBundle)
+  if (USE_CLOSURE) console.log('Testing Closure bundle: %s', closureBundle)
   const li = {
     session: middleware.session,
     client_id,

@@ -15,7 +15,7 @@ const template = (content, closureBundle, TEST_CLOSURE) => {
 }
 
 export default (ctx) => {
-  const { closureBundle, TEST_CLOSURE } = ctx
+  const { closureBundle, USE_CLOSURE } = ctx
   const user = JSON.stringify(ctx.session.user, null, 2)
   const { csrf } = ctx.session
   const auth = user ? `<form action="/signout" method="post">
@@ -26,7 +26,7 @@ export default (ctx) => {
   ctx.body = template(`
     ${User}
     ${auth}
-    <div id="preact"></div>`, closureBundle, TEST_CLOSURE)
+    <div id="preact"></div>`, closureBundle, USE_CLOSURE)
 }
 
 export const middleware = (route) =>
