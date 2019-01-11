@@ -38,7 +38,7 @@ const es = async (ctx, next) => {
   }).catch(() => {
     console.log('ES PUT ERROR')
   })
-  console.log(path, id)
+  // console.log(path, id)
 
   if (e) throw e
 }

@@ -9,9 +9,10 @@ import { makeLinkedinFinish } from './lib'
 import es from './es'
 
 const PROD = process.env.NODE_ENV == 'production'
-const WEBSITE = 'https://technation.sucks'
+const BACK_END = 'https://technation.sucks'
+const FRONT_END = 'https://www.technation.sucks'
 const USE_CLOSURE = process.env.USE_CLOSURE
-const closureBundle = PROD ? `${WEBSITE}/comments.js` : '/bundle.js'
+const closureBundle = PROD ? `${BACK_END}/comments.js` : '/bundle.js'
 
 /**
  * Starts the server.
@@ -26,23 +27,25 @@ export default async ({
   const { app, router, url, middleware } = await idio({
     cors: {
       use: true,
-      origin: PROD && ['https://www.technation.sucks', WEBSITE],
+      origin: PROD && [FRONT_END, BACK_END],
       config: { credentials: true },
     },
-    logger: { use: PROD },
+    logger: { use: !PROD },
     es,
-    /** @type {import('koa').Middleware} */
-    async jsx(ctx, next) {
-      if (!ctx.path.endsWith('.jsx')) {
-        await next()
-        return
-      }
-      const p = join('frontend', ctx.path)
-      const r = await read(p)
-      const jsx = transpileJSX(r)
-      ctx.type = 'text/javascript'
-      ctx.body = jsx
-    },
+    ...(!PROD ? {
+      /** @type {import('koa').Middleware} */
+      async jsx(ctx, next) {
+        if (!ctx.path.endsWith('.jsx')) {
+          await next()
+          return
+        }
+        const p = join('frontend', ctx.path)
+        const r = await read(p)
+        const jsx = transpileJSX(r)
+        ctx.type = 'text/javascript'
+        ctx.body = jsx
+      },
+    } : {}),
     sc,
     /** @type {import('koa').Middleware} */
     async sourceMaps(ctx, next) {
@@ -62,7 +65,7 @@ export default async ({
   }, { port })
   Object.assign(app.context, {
     prod: PROD,
-    USE_CLOSURE,
+    USE_CLOSURE: PROD || USE_CLOSURE,
     closureBundle,
     client, appName: 'technation.sucks',
   })
@@ -91,7 +94,7 @@ export default async ({
   if (watch) watchRoutes(w)
   app.use(router.routes())
   app.use((ctx) => {
-    ctx.redirect('https://www.technation.sucks')
+    ctx.redirect(FRONT_END)
   })
   return { app, url }
 }
