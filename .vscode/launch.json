@@ -32,7 +32,11 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Build",
-      "program": "${workspaceFolder}/build/build.js"
+      "program": "${workspaceFolder}/build/index.js",
+      "skipFiles": [
+        "<node_internals>/**/*.js"
+      ],
+      "console": "integratedTerminal"
     },
     {
       "type": "node",

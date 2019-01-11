@@ -4,6 +4,7 @@ import read from '@wrote/read'
 import write from '@wrote/write'
 import readDirStructure from '@wrote/read-dir-structure'
 import clone from '@wrote/clone'
+import ensurePath from '@wrote/ensure-path'
 import transpileJSX from '@a-la/jsx'
 import TempContext from 'temp-context'
 import { join } from 'path'
@@ -24,6 +25,7 @@ class BuildTemp extends TempContext {
   const args = [
     '-jar', compiler,
     '--js', `${BUILD}/**.js`,
+    '--js', `${BUILD}/**.jsx`,
     '--compilation_level', 'ADVANCED',
     '--language_in', 'ECMASCRIPT_2018',
     '--externs', 'build/preact-externs.js',
@@ -32,9 +34,9 @@ class BuildTemp extends TempContext {
     '--create_source_map', '%outname%.map',
     '--source_map_include_content',
   ]
-  const { promise: promise2 } = spawn('java', args)
   try {
-    await cloneSrc('')
+    await cloneSrc('frontend', BUILD)
+    const { promise: promise2 } = spawn('java', args)
     const { stdout: o, stderr: e, code: c } = await promise2
     if (c) throw new Error(e)
     await update(path, 'static/comments.js')
@@ -49,7 +51,7 @@ class BuildTemp extends TempContext {
 
 const cloneSrc = async (dir, to, content) => {
   if (!content) content = (await readDirStructure(dir)).content
-  await Object.keys(content, async (acc, key) => {
+  await Object.keys(content).reduce(async (acc, key) => {
     await acc
     const path = join(dir, key)
     const pathTo = join(to, key)
@@ -63,7 +65,8 @@ const cloneSrc = async (dir, to, content) => {
     } else {
       const f = await read(path)
       const res = transpileJSX(f)
-      await write(path, res)
+      await ensurePath(pathTo)
+      await write(pathTo, res)
     }
   }, {})
 }

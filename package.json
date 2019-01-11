@@ -54,6 +54,7 @@
     "@a-la/jsx": "1.0.0",
     "@demimonde/dotenv": "1.0.0",
     "@wrote/clone": "1.1.0",
+    "@wrote/ensure-path": "1.0.3",
     "@wrote/read": "1.0.0",
     "@wrote/read-dir-structure": "1.0.1",
     "@wrote/write": "1.0.0",

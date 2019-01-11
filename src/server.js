@@ -9,6 +9,9 @@ import { makeLinkedinFinish } from './lib'
 import es from './es'
 
 const PROD = process.env.NODE_ENV == 'production'
+const WEBSITE = 'https://technation.sucks'
+const TEST_CLOSURE = process.env.TEST_CLOSURE
+const closureBundle = PROD ? `${WEBSITE}/comments.js` : '/bundle.js'
 
 /**
  * Starts the server.
@@ -25,7 +28,7 @@ export default async ({
       use: true,
       origin: PROD ? [
         'https://www.technation.sucks',
-        'https://technation.sucks',
+        WEBSITE,
       ]: '*',
       config: {
         credentials: true,
@@ -60,8 +63,11 @@ export default async ({
   }, { port })
   Object.assign(app.context, {
     prod: PROD,
+    TEST_CLOSURE,
+    closureBundle,
     client, appName: 'technation.sucks',
   })
+  if (TEST_CLOSURE) console.log('Testing Closure bundle: %s', closureBundle)
   const li = {
     session: middleware.session,
     client_id,
