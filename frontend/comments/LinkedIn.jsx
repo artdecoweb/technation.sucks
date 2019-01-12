@@ -1,5 +1,5 @@
 /* eslint-env browser */
-const { h } = window.preact
+import { h } from 'preact'
 
 const popup = (url, width, height) => {
   const { top: {

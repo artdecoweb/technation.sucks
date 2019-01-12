@@ -5,6 +5,10 @@ import linkedIn from '@idio/linkedin'
 import { join } from 'path'
 import read from '@wrote/read'
 import transpileJSX from '@a-la/jsx'
+import { Replaceable } from 'restream'
+import { collect } from 'catchment'
+import { relative } from 'path'
+import { resolveDependency } from 'depack'
 import { makeLinkedinFinish } from './lib'
 import es from './es'
 
@@ -42,12 +46,55 @@ export default async ({
         const p = join('frontend', ctx.path)
         const r = await read(p)
         const jsx = transpileJSX(r)
+        const body = await patchSource(p, jsx)
         ctx.type = 'text/javascript'
-        ctx.body = jsx
+        ctx.body = body
       },
     } : {}),
+    /** @type {import('koa').Middleware} */
+    async nodeModulesPath(ctx, next) {
+      const enabled = ['preact-richtextarea']
+      const p = ctx.path.replace('/', '')
+      if (ctx.path.endsWith('.css')) {
+        const f = await read(p)
+        const js = `
+function __$styleInject(css, returnValue) {
+  if (typeof document === 'undefined') {
+    return returnValue;
+  }
+  css = css || '';
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+  if (style.styleSheet){
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+  head.appendChild(style);
+  return returnValue;
+}
+const style = \`${f}\`
+__$styleInject(style)`
+        ctx.type = 'application/javascript'
+        ctx.body = js
+        return
+      }
+      if (ctx.path.startsWith('/node_modules')) {
+        const [, d] = /^\/node_modules\/(.+?)\//.exec(ctx.path) || []
+        if (!enabled.includes(d)) return await next()
+        const f = await read(p)
+        const ff = transpileJSX(f, { quoteProps: 1 })
+        const body = await patchSource(p, ff)
+        ctx.type = 'application/javascript'
+        ctx.body = body
+      } else {
+        await next()
+      }
+    },
     sc: staticCache('static'),
-    static: { use: true, root: ['closure', 'frontend'] },
+    static: [{ use: true, root: ['closure', 'frontend'] },
+      { use: true, root: 'node_modules', mount: '/node_modules' }],
     session: { keys: [process.env.SESSION_KEY] },
     bodyparser: {},
   }, { port })
@@ -86,6 +133,36 @@ export default async ({
     ctx.redirect(FRONT_END)
   })
   return { app, url }
+}
+
+const patchSource = async (path, source) => {
+  const rs = new Replaceable([
+    {
+      re: /^( *import(?:\s+[^\s,]+\s*,?)?(?:\s*{(?:[^}]+)})?\s+from\s+)['"](.+)['"]/gm,
+      async replacement(m, pre, from) {
+        if (/[/.]/.test(from)) {
+          const rd = await resolveDependency(path, from)
+          return `${pre}'${rd}'`
+        }
+        const { module: mod } = require(`${from}/package.json`)
+        if (!mod) {
+          console.warn('[↛] Package %s does not specify module in package.json, trying src', from)
+          const d = getDep(from, 'src', pre)
+          return d
+        }
+        return getDep(from, mod, pre)
+      },
+    },
+  ])
+  rs.end(source)
+  const body = await collect(rs)
+  return body
+}
+
+const getDep = (from, path, pre) => {
+  const modPath = require.resolve(`${from}/${path}`)
+  const modRel = relative('', modPath)
+  return `${pre}'/${modRel}'`
 }
 
 // /** @type {import('koa').Middleware} */

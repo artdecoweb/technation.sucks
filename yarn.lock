@@ -17,10 +17,10 @@
   resolved "https://registry.yarnpkg.com/@a-la/import/-/import-1.7.0.tgz#169849ac4ac50558867f89e38f841dc2eee51ae8"
   integrity sha512-4iLDtywkxKaRupaLcc/ZNSxE0HWiag3z/9DsfWU0smdwXmgfkcqM9lGwhGM4vkB3YqXTOD3MtGRxxjrOIjDtjQ==
 
-"@a-la/jsx@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@a-la/jsx/-/jsx-1.1.0.tgz#9d5bf55da2dff8b1d3a54bd8fe0a744b3840af90"
-  integrity sha512-Wp+S/EsvSsHiwiRqABzUrBwtZspf8QZPhauhofxu5cslqWwHvrc6o8B/BU4KT1t7WHKhSPUdv5s+ZqJ6RUUtJg==
+"@a-la/jsx@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@a-la/jsx/-/jsx-1.1.3.tgz#1938b62e646eabb915bd12b346725edd1733b421"
+  integrity sha512-+I17mtTtFWlAe9EKF38Q7pRN3fBu9kFGcq9hZ0tw59VQs4zEulFucSfeQ6dMv2n2HX2V2drjk2qN5lFLTbiOWg==
   dependencies:
     "@a-la/detect-jsx" "1.0.0"
     restream "3.4.1"
@@ -1446,6 +1446,16 @@ pirates@4.0.0:
   integrity sha512-8t5BsXy1LUIjn3WWOlOuFDuKswhQb/tkak641lvBgmPOBUQHXveORtlMCp6OdPV1dtuTaEahKA8VNz6uLfKBtA==
   dependencies:
     node-modules-regexp "^1.0.0"
+
+preact-richtextarea@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/preact-richtextarea/-/preact-richtextarea-1.2.1.tgz#02ade4553d1938a277b85374c8275bc1f612ebcf"
+  integrity sha1-Aq3kVT0ZOKJ3uFN0yCdbwfYS688=
+
+preact@8.4.2:
+  version "8.4.2"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-8.4.2.tgz#1263b974a17d1ea80b66590e41ef786ced5d6a23"
+  integrity sha512-TsINETWiisfB6RTk0wh3/mvxbGRvx+ljeBccZ4Z6MPFKgu/KFGyf2Bmw3Z/jlXhL5JlNKY6QAbA9PVyzIy9//A==
 
 process-nextick-args@~2.0.0:
   version "2.0.0"

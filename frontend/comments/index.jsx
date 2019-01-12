@@ -1,9 +1,8 @@
 /* eslint-env browser */
-import LinkedIn from './LinkedIn.jsx'
-import User from './User.jsx'
-import callbackFetch from '../fetch.js'
-
-const { Component, h, render } = window.preact
+import { Component, h, render } from 'preact'
+import LinkedIn from './LinkedIn'
+import User from './User'
+import callbackFetch from '../fetch'
 
 class App extends Component {
   constructor() {

@@ -1,6 +1,6 @@
 /* eslint-env browser */
-const { h } = window.preact
-import callbackFetch from '../fetch.js'
+import { h } from 'preact'
+import callbackFetch from '../fetch'
 
 const signOut = (host, csrf, cb) => {
   callbackFetch(`${host}/signout`, (err, res) => {
