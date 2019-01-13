@@ -1,5 +1,6 @@
 /* eslint-env browser */
 import { Component, h, render } from 'preact'
+import { test } from '/update.js'
 import LinkedIn from './LinkedIn'
 import User from './User'
 import callbackFetch from '../fetch'
@@ -52,6 +53,17 @@ class App extends Component {
         <LinkedIn host={this.props.host}/>
       </div>
     return <div>
+      <button onClick={() => {
+        const src = `/update.js?ts=${new Date().getTime()}`
+        const script = document.createElement('script')
+        script.type = 'module'
+        script.src = src
+        document.body.appendChild(script)
+      }}>Update</button>
+      <button onClick={() => {
+        test()
+        debugger
+      }}>Test</button>
       <User {...this.state.auth} onSignout={() => {
         this.setState({ auth: {} })
       }} host={this.props.host}/>
