@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@a-la/detect-jsx/-/detect-jsx-1.0.0.tgz#a41a78ba5a430195054097d591e95f1cf20548ee"
   integrity sha512-QZP00N4tl3IqAHv+TpncGZcoiSBU2Hh6rRrVdqs9sGi2w4CxoQdQgPTceWLkkZ1L0Pl1ewDEDgIwwhRyMhwz6A==
 
+"@a-la/detect-jsx@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@a-la/detect-jsx/-/detect-jsx-1.0.1.tgz#ef36b5f3c129e0901d5752a86999a9910f6b5e7a"
+  integrity sha512-ZxWfYmzeFt0CUDylMM8ZiZwSDOrZHyDnf5iVkimZKOfB5VwNEhC52NZCv5zctMFI2y3H4+jsePq6fXHc46FrFw==
+
 "@a-la/export@1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@a-la/export/-/export-1.3.0.tgz#aaa22530315f85557331ddd2fc096b1b20d11afb"
@@ -25,6 +30,14 @@
     "@a-la/detect-jsx" "1.0.0"
     restream "3.4.1"
 
+"@a-la/jsx@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@a-la/jsx/-/jsx-1.2.2.tgz#0515c98d4d9eb763fabde1c3665c4aa994cf5b05"
+  integrity sha512-U8PBd1Y7G8WpCz7xFp3tyymy/n4VvZ43T2xLv6amTT2T0/TZ6fySB+m71K/f7ucCCaWl1F20IRrdPohx5umJjQ==
+  dependencies:
+    "@a-la/detect-jsx" "1.0.1"
+    restream "3.4.1"
+
 "@a-la/markers@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@a-la/markers/-/markers-1.0.3.tgz#2800c812acce35d01756cd82a0553320d405f38d"
@@ -36,6 +49,11 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@artdeco/clean-stack/-/clean-stack-1.0.0.tgz#36ff9c9f66e6cb1eb0bfa90341be21cba70c7ea6"
   integrity sha512-lNrvCAG7xU8z2srq7XSbyDECGEjhXiXlP3CbQ4G0OSTckUBnu7yY7zUcpDK5x1CxyWvDKb3qsUkKKgK703GBeA==
+
+"@artdeco/clean-stack@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@artdeco/clean-stack/-/clean-stack-1.0.1.tgz#7e4d3bb1b0ac62173b00e4bba7091f7847cdb088"
+  integrity sha512-ZSavD8NpWA1/1SRCKrx8LZ5WfbKS1kRUIFOERJvR1jXqCAcbM3xWSP2VdCKEh4lCwWghSWQkotbpK6n+o1Y/xQ==
 
 "@demimonde/dotenv@1.0.0":
   version "1.0.0"
@@ -64,6 +82,17 @@
     koa-session "5.10.1"
     koa-static "5.0.0"
     server-destroy "1.0.1"
+
+"@idio/frontend@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@idio/frontend/-/frontend-1.0.0.tgz#2d94e48defae01eaaed76380ccd5f252611efbfe"
+  integrity sha512-7WG9I2cAWPYLAP0Sur+GAXwo5hEnoU2e6eQ+OoZqS24XqoHdMbR9bikqJF64XsFwcumCKQ2AjZvtlytvwl6dXQ==
+  dependencies:
+    "@a-la/jsx" "1.2.2"
+    "@wrote/exists" "1.0.1"
+    "@wrote/read" "1.0.2"
+    catchment "3.2.2"
+    restream "3.5.0"
 
 "@idio/linkedin@1.4.0":
   version "1.4.0"
@@ -273,6 +302,13 @@
   dependencies:
     makepromise "3.0.1"
 
+"@wrote/exists@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@wrote/exists/-/exists-1.0.1.tgz#6c72c49abf02af9bee1e1977a2257421704a51fe"
+  integrity sha512-fpUumy6miIM9Hz9n6eo2yjvhwnD/oeUX6AHLV2BtJv+3MqdzoZnFjHL1Sf0Rh/veNfdVF8zLJa4zQtTvnsL22g==
+  dependencies:
+    makepromise "3.0.2"
+
 "@wrote/read-dir-structure@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@wrote/read-dir-structure/-/read-dir-structure-1.0.1.tgz#fe1bf41715a0dbf7c2fb65a7d7b4fefab127eb24"
@@ -286,6 +322,13 @@
   integrity sha512-oUI1SAvdlTVYlbro4sfm5OzsT6GSuisqrJsi2YqaAgVNykqm5flPXsnttOeDksjvMD9LjHXPMkTtmytmzfoluQ==
   dependencies:
     catchment "3.1.1"
+
+"@wrote/read@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@wrote/read/-/read-1.0.2.tgz#6d1d2b2f3e2e1830007384b06c31fb58ec77cf21"
+  integrity sha512-Db4j0GimaxxK4oudPvtlyirgNzmVgadiBv2pu1qWYWQM9M2/Pt53cnbSaJplnORZV19908NWm2x18g5XZNoKDQ==
+  dependencies:
+    catchment "3.2.1"
 
 "@wrote/rm@1.1.0":
   version "1.1.0"
@@ -517,6 +560,22 @@ catchment@3.2.0:
   dependencies:
     "@artdeco/clean-stack" "1.0.0"
     erotic "2.0.1"
+
+catchment@3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/catchment/-/catchment-3.2.1.tgz#43b1aa1f183538fb8fc556b5dc5e0885bfe707d1"
+  integrity sha512-ITAsJ2U7YAZgref9E8TtpVU+xdkHLa7xWoj5XCGS7oE1OV/4c/MLiaDUE3x7tbJIpd3ADEvKLtfwBHGHl/Xk1g==
+  dependencies:
+    "@artdeco/clean-stack" "1.0.1"
+    erotic "2.0.2"
+
+catchment@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/catchment/-/catchment-3.2.2.tgz#f7a6b97073ab9e0f442fd38145e4150ffe909542"
+  integrity sha512-lnhfMrT8ZB9N1At3kMq2W2NkloNfxvMhcl0ew/+8sCqQfUDNGum+FujmdxIaDYsfdQDKcnMjVikfDaV207LVtw==
+  dependencies:
+    "@artdeco/clean-stack" "1.0.1"
+    erotic "2.0.2"
 
 chalk@^1.0.0, chalk@^1.1.3:
   version "1.1.3"
@@ -758,6 +817,13 @@ erotic@2.0.1:
   integrity sha512-4J/dXhlM9lFYI5GvY4vS+W2M8w5Rmrj+Hh6y/GNb8u1YK6B/jszBMbMRJRDSSbTblbqDD23+97MrMl9hVxqmGg==
   dependencies:
     "@artdeco/clean-stack" "1.0.0"
+
+erotic@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/erotic/-/erotic-2.0.2.tgz#22d611ea49bcacdc577abb9fbff3af67cbc5c1e3"
+  integrity sha512-iH9zPUi+/Y6vuzSz7EBRKI25UiBliDz4/lH1+BubsZZBBBZ77xV3iUlkUT0xKOBHbOOWOoH5J5xeSVDqWR3ivQ==
+  dependencies:
+    "@artdeco/clean-stack" "1.0.1"
 
 error-inject@^1.0.0:
   version "1.0.0"
@@ -1189,6 +1255,13 @@ makepromise@3.0.1:
   dependencies:
     erotic "1.2.1"
 
+makepromise@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/makepromise/-/makepromise-3.0.2.tgz#320376544da2fc3220c66d5baec037fca4c279f6"
+  integrity sha512-w9PNbpDhrwSUt9iDKXPcuSukoyy6KqgPXMombnSqmlXi/wA8zTOs6PghVx4l3Jes6tonJBOztBoGaYgT9iFtbg==
+  dependencies:
+    erotic "2.0.2"
+
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
@@ -1546,6 +1619,13 @@ restream@3.4.1:
   integrity sha512-aWur+X3dItQjmw2c7KPiyy2BEw20+0d1nk0IAgVEqcvNrGh7MZ4stZ1KnSr5ekcHwI9VDP/3lJ6N2+nLIZduLA==
   dependencies:
     "@artdeco/clean-stack" "1.0.0"
+
+restream@3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/restream/-/restream-3.5.0.tgz#8790f4592b4ef5cd84855c243bac2899d90044b4"
+  integrity sha512-qJbNhhC7y0E4FKBeFAUr1HicaCotL49blKqz95X2uoFTZHDjUmsXP35jgDK4jGdoVC0wP4w0LbZN8oAvJe7Z+g==
+  dependencies:
+    "@artdeco/clean-stack" "1.0.1"
 
 rimraf@^2.6.1:
   version "2.6.3"

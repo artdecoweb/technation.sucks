@@ -41,6 +41,7 @@
   "homepage": "https://github.com/artdecoweb/technation.sucks#readme",
   "dependencies": {
     "@idio/core": "1.1.0",
+    "@idio/frontend": "1.0.0",
     "@idio/linkedin": "1.4.0",
     "@idio/router": "1.2.0",
     "@svag/lib": "2.0.0",

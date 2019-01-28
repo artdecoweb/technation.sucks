@@ -1,6 +1,6 @@
 /* eslint-env browser */
 import { Component, h, render } from 'preact'
-import { test } from '/update.js'
+// import { test } from '/update.js'
 import LinkedIn from './LinkedIn'
 import User from './User'
 import callbackFetch from '../fetch'
@@ -61,7 +61,7 @@ class App extends Component {
         document.body.appendChild(script)
       }}>Update</button>
       <button onClick={() => {
-        test()
+        // test()
         debugger
       }}>Test</button>
       <User {...this.state.auth} onSignout={() => {
