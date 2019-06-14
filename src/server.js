@@ -3,8 +3,7 @@ import initRoutes, { watchRoutes } from '@idio/router'
 import staticCache from 'koa-static-cache'
 import linkedIn from '@idio/linkedin'
 import { makeLinkedinFinish } from './lib'
-import frontend from '@idio/frontend'
-import es from './es'
+import logarithm from 'logarithm'
 
 const {
   NODE_ENV,
@@ -29,8 +28,17 @@ export default async ({
     },
     logger: { use: !PROD },
     compress: { use: true },
-    es,
-    ...(!PROD ? { frontend } : {}),
+    logarithm: {
+      middlewareConstructor() {
+        const l = logarithm({
+          app: 'technation.sucks',
+          url: process.env.ELASTIC,
+        })
+        return l
+      },
+      use: true,
+    },
+    frontend: {},
     sc: staticCache('static'),
     static: { use: true, root: 'closure' },
     session: { keys: [process.env.SESSION_KEY] },

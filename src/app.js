@@ -3,8 +3,9 @@ import { c } from 'erte'
 import Server from './server'
 import dotenv from '@demimonde/dotenv'
 dotenv()
+import { ping } from 'logarithm'
 
-const host = `${process.env.ELASTIC}:9200`
+const host = process.env.ELASTIC
 
 const client = new Client({
   host,
@@ -12,9 +13,7 @@ const client = new Client({
 
 ;(async () => {
   try {
-    await client.ping({
-      requestTimeout: 10000,
-    })
+    await ping(host)
     console.log('Connected to %s', c(host, 'red'))
     const { url } = await Server({
       client, port: process.env.PORT,

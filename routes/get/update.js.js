@@ -1,5 +1,5 @@
-import { getMap } from 'alamode/build/lib/source-map'
-import { basename, dirname } from 'path';
+// import { getMap } from 'alamode/build/lib/source-map'
+import { basename, dirname } from 'path'
 
 const src = `const rnd = Math.random()
 
@@ -8,15 +8,16 @@ export const test = () => {
 }`
 
 /** @type {import('koa').Middleware} */
-export default (ctx, next) => {
+export default (ctx) => {
   ctx.type = 'application/javascript'
-  const map = getMap({
-    originalSource: `${src}// hot-module-reload util`,
-    pathToSrc: basename(ctx.path),
-    sourceRoot: dirname(ctx.path),
-  })
-  const b64 = Buffer.from(map).toString('base64')
-  const s = `//# sourceMappingURL=data:application/json;charset=utf-8;base64,${b64}`
+  // const map = getMap({
+  //   originalSource: `${src}// hot-module-reload util`,
+  //   pathToSrc: basename(ctx.path),
+  //   sourceRoot: dirname(ctx.path),
+  // })
+  // const b64 = Buffer.from(map).toString('base64')
+  // const s = `//# sourceMappingURL=data:application/json;charset=utf-8;base64,${b64}`
+  const s = ''
   const e = 'export'
   ctx.body = `${src.replace('export', '      ')}
 window.proxies = window.proxies || {}

@@ -1,5 +1,5 @@
 /* eslint-env browser */
-import { Component, h, render } from 'preact'
+import { Component, render } from 'preact'
 // import { test } from '/update.js'
 import LinkedIn from './LinkedIn'
 import User from './User'

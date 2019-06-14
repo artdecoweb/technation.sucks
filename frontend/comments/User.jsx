@@ -1,5 +1,4 @@
 /* eslint-env browser */
-import { h } from 'preact'
 import callbackFetch from '../fetch'
 
 const signOut = (host, csrf, cb) => {

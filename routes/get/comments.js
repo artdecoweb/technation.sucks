@@ -8,7 +8,7 @@ const template = (content, TEST_CLOSURE, HOST) => {
   ${content}
   ${TEST_CLOSURE
     ? `<script src="/comments.js"></script>`
-    : `<script type="module" src="/comments/index.jsx"></script>`}
+    : `<script type="module" src="frontend/comments/"></script>`}
   <script${!TEST_CLOSURE ? ' type="module"': ''}>
     window.comments({ host: '${HOST}' })
   </script>
@@ -31,4 +31,4 @@ export default (ctx) => {
     <div id="preact"></div>`, CLOSURE, HOST)
 }
 
-export const middleware = (route) => ['session', route]
+export const middleware = ['session']
