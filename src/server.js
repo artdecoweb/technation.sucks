@@ -39,6 +39,17 @@ export default async ({
       use: true,
     },
     frontend: {},
+    multerSingle: {
+      middlewareConstructor() {
+        return async (...args) => {
+          const mw = middleware.multer.single('image')
+          await mw(...args)
+        }
+      },
+    },
+    multer: { config: {
+      dest: 'upload',
+    } },
     sc: staticCache('static'),
     static: { use: true, root: 'closure' },
     session: { keys: [process.env.SESSION_KEY] },

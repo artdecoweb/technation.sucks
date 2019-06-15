@@ -9,8 +9,7 @@ const LinkedIn = ({ size = 'medium', host, signinLink = '/linkedin' }) => {
     e.preventDefault()
     const height = 610
     const width = 500
-    popup(`${host}${signinLink}`, 'Sign In', width, height, {
-    })
+    popup(`${host}${signinLink}`, 'Sign In', width, height)
     return false
   }} onMouseOver={(e) => {
     e.currentTarget.style.background = '#0369A0'

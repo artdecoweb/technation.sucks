@@ -45,14 +45,14 @@ class App extends Component {
   }
   render() {
     if (this.state.error)
-      return <div>Error: {this.state.error}</div>
+      return (<div>Error: {this.state.error}</div>)
     if (this.state.loading)
-      return <div>Loading...</div>
+      return (<div>Loading...</div>)
     if (!this.state.auth.user)
-      return <div>
+      return (<div>
         <LinkedIn host={this.props.host}/>
-      </div>
-    return <div>
+      </div>)
+    return (<div>
       <button onClick={() => {
         const src = `/update.js?ts=${new Date().getTime()}`
         const script = document.createElement('script')
@@ -67,7 +67,7 @@ class App extends Component {
       <User {...this.state.auth} onSignout={() => {
         this.setState({ auth: {} })
       }} host={this.props.host}/>
-    </div>
+    </div>)
   }
 }
 

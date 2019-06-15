@@ -20,7 +20,7 @@ const signOut = (host, csrf, cb) => {
 const User = ({ user: {
   profilePicture, firstName, lastName,
 }, csrf, onSignout = () => {}, host }) => {
-  return <div>
+  return (<div>
     <img src={profilePicture} width="50"/>
     Hello, {firstName} {lastName}!
     <a href="#" onClick={(e) => {
@@ -31,7 +31,7 @@ const User = ({ user: {
       })
       return false
     }}>Sign Out</a>
-  </div>
+  </div>)
 }
 
 export default User
