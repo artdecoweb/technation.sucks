@@ -1,8 +1,6 @@
 import { Client } from 'elasticsearch'
 import { c } from 'erte'
 import Server from './server'
-import dotenv from '@demimonde/dotenv'
-dotenv()
 import { ping } from 'logarithm'
 
 const host = process.env.ELASTIC
