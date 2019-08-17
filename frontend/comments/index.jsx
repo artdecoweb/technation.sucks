@@ -13,8 +13,9 @@ class App extends Component {
       error: null,
       auth: {},
     }
-    this.postMessageListener = this.postMessageListener.bind(this)
-    window.addEventListener('message', this.postMessageListener, false)
+    this.pml = /** @type {function(!Event)} */(this.postMessageListener.bind(this))
+
+    window.addEventListener('message', this.pml, false)
   }
   componentDidMount() {
     this.auth()
@@ -33,7 +34,7 @@ class App extends Component {
     })
   }
   /**
-   * @param {MessageEvent} event
+   * @param {!MessageEvent} event
    */
   postMessageListener(event) {
     const { data, origin } = event
@@ -41,7 +42,7 @@ class App extends Component {
     if (data == 'linkedin-signedin') this.auth()
   }
   componentWillUnmount() {
-    window.removeEventListener('message', this.postMessageListener)
+    window.removeEventListener('message', this.pml)
   }
   render() {
     if (this.state.error)
@@ -53,17 +54,6 @@ class App extends Component {
         <LinkedIn host={this.props.host}/>
       </div>)
     return (<div>
-      <button onClick={() => {
-        const src = `/update.js?ts=${new Date().getTime()}`
-        const script = document.createElement('script')
-        script.type = 'module'
-        script.src = src
-        document.body.appendChild(script)
-      }}>Update</button>
-      <button onClick={() => {
-        // test()
-        debugger
-      }}>Test</button>
       <User {...this.state.auth} onSignout={() => {
         this.setState({ auth: {} })
       }} host={this.props.host}/>
@@ -71,8 +61,20 @@ class App extends Component {
   }
 }
 
+{/* <button onClick={() => {
+  const src = `/update.js?ts=${new Date().getTime()}`
+  const script = document.createElement('script')
+  script.type = 'module'
+  script.src = src
+  document.body.appendChild(script)
+}}>Update</button>
+<button onClick={() => {
+  // test()
+  debugger
+}}>Test</button> */}
+
 window['comments'] = ({
-  host = 'https://technation.sucks', container = 'preact',
+  host = 'https://api.technation.sucks', container = 'preact',
 }) => {
   render(<App host={host}/>, document.getElementById(container))
 }

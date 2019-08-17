@@ -20,7 +20,10 @@ export default (ctx) => {
     </form>}
     {!user && <a href="/auth/linkedin">Sign In</a>}
 
-    <div id="preact"></div>
+    <div id="preact"/>
+
+    <script src="node_modules/preact/dist/preact.umd.js"/>
+
     <Closure closure={CLOSURE}/>
 
     <script type={CLOSURE ? undefined : 'module'}>
