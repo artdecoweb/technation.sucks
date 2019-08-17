@@ -13,17 +13,15 @@
     "prod": "git push prod",
     "start": "node src",
     "dev": "node src",
-    "doc": "NODE_DEBUG=doc doc documentary -o README.md",
+    "doc": "NODE_DEBUG=doc doc -o README.md",
     "b": "alamode src -o build -s -i index.js",
+    "deploy": "git push api",
     "d": "yarn-s d1",
     "d1": "NODE_DEBUG=doc doc src/index.js -g",
     "build": "yarn-s d b doc",
     "e": "node example",
     "example/": "yarn e example/example.js"
   },
-  "files": [
-    "build"
-  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/artdecoweb/technation.sucks.git"
@@ -46,7 +44,7 @@
     "@svag/lib": "2.0.0",
     "@svag/window": "1.1.1",
     "catchment": "3.3.0",
-    "elasticsearch": "16.1.1",
+    "elasticsearch": "16.3.0",
     "erte": "1.2.0",
     "koa-static-cache": "5.1.2",
     "logarithm": "^1.0.1",
@@ -55,16 +53,17 @@
   "devDependencies": {
     "@a-la/jsx": "1.6.0",
     "@demimonde/dotenv": "1.0.0",
+    "@typedefs/goa": "^0.0.5",
     "@wrote/clone": "1.2.1",
-    "@wrote/ensure-path": "1.0.8",
+    "@wrote/ensure-path": "1.1.0",
     "@wrote/read": "1.0.4",
     "@wrote/read-dir-structure": "1.2.0",
     "@wrote/write": "1.0.4",
-    "alamode": "2.3.4",
-    "preact": "8.4.2",
+    "alamode": "2.4.0",
+    "preact": "8.5.1",
     "preact-richtextarea": "1.2.1",
-    "restream": "3.7.1",
-    "rqt": "3.1.3",
+    "restream": "3.7.4",
+    "rqt": "4.0.0",
     "spawncommand": "2.2.0",
     "temp-context": "2.1.3",
     "zoroaster": "4.1.1-alpha"

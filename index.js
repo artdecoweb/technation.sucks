@@ -1,6 +1,6 @@
 export {}
 /**
- * @typedef {import('@goa/koa').Context & { client: Client, session: { admin: boolean } }} Context
+ * @typedef {import('@typedefs/goa').Context & { client: Client, session: { admin: boolean } }} Context
  * @typedef {(ctx: Context, next: !Function)} Middleware
  */
 

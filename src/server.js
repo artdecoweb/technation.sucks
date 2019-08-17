@@ -10,6 +10,7 @@ const {
   HOST = 'https://technation.sucks',
   FRONT_END = 'https://www.technation.sucks',
   CLOSURE, // for /comments page
+  SESSION_KEY,
 } = process.env
 const PROD = NODE_ENV == 'production'
 
@@ -18,7 +19,7 @@ const PROD = NODE_ENV == 'production'
  */
 export default async ({
   client, port, client_id, client_secret,
-  watch = !PROD,
+  watch = !PROD, elastic,
 }) => {
   const { app, router, url, middleware } = await idio({
     cors: {
@@ -32,7 +33,7 @@ export default async ({
       middlewareConstructor() {
         const l = logarithm({
           app: 'technation.sucks',
-          url: process.env.ELASTIC,
+          url: elastic,
         })
         return l
       },
@@ -52,15 +53,17 @@ export default async ({
     } },
     sc: staticCache('static'),
     static: { use: true, root: 'closure' },
-    session: { keys: [process.env.SESSION_KEY] },
+    session: { keys: [SESSION_KEY] },
     bodyparser: {},
   }, { port })
+
   Object.assign(app.context, {
     prod: PROD,
     HOST: PROD ? HOST : url,
     CLOSURE: PROD || CLOSURE,
     client, appName: 'technation.sucks',
   })
+
   if (CLOSURE)
     console.log('Testing Closure bundle: %s', 'closure/comments.js')
   const li = {
