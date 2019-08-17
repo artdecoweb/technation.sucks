@@ -1,8 +1,7 @@
 export default (ctx) => {
-  const { user, positions, csrf } = ctx.session
+  const { user, csrf } = ctx.session
   ctx.body = {
     user,
-    positions,
     csrf,
   }
 }
