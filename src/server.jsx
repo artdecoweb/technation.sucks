@@ -1,9 +1,11 @@
 import idio from '@idio/core'
+import render from '@depack/render'
 import initRoutes, { watchRoutes } from '@idio/router'
 import staticCache from 'koa-static-cache'
 import linkedIn from '@idio/linkedin'
 import { makeLinkedinFinish } from './lib'
 import logarithm from 'logarithm'
+import DefaultLayout from '../layout'
 
 const {
   NODE_ENV,
@@ -63,6 +65,14 @@ export default async ({
     HOST: PROD ? HOST : url,
     CLOSURE: PROD || CLOSURE,
     client, appName: 'technation.sucks',
+    render: (vnode, props = {}, Layout = DefaultLayout) => {
+      return render(<Layout {...props}>
+        {vnode}
+      </Layout>, {
+        addDoctype: true,
+        pretty: true,
+      })
+    },
   })
 
   if (CLOSURE)
