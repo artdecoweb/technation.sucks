@@ -23,6 +23,7 @@ export default (ctx) => {
     <div id="preact"/>
 
     <script src="node_modules/preact/dist/preact.umd.js"/>
+    <script>{`window.h = preact.h`}</script>
 
     <Closure closure={CLOSURE}/>
 

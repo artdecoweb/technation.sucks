@@ -42,7 +42,11 @@ export default async ({
       },
       use: true,
     },
-    frontend: {},
+    frontend: {
+      config: {
+        pragma: null,
+      },
+    },
     multerSingle: {
       middlewareConstructor() {
         return async (...args) => {
