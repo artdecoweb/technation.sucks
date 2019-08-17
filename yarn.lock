@@ -52,10 +52,10 @@
   resolved "https://registry.yarnpkg.com/@depack/split/-/split-1.0.0.tgz#37fea28d9bc6f01e5a2da87d393f402781bb7e99"
   integrity sha512-PNJPl01VFMKtyN7qBZ2cds4N/lO2KvzLrR7JamODFiuuL2X8mGoTKp1SI8fxlT2MwLV8mScCUKn55QPwsUX7iA==
 
-"@externs/preact@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@externs/preact/-/preact-1.2.0.tgz#fffc5dace84af604653d7be4da2754f40cb11f32"
-  integrity sha512-wnPa51swyIndcKuXQc9U49Ha+mtaK7QXLt6K28jJcazMUZ1pE6gXyfw8VNAhhvZ85eB4/kSbje+JDaH/Bsba5g==
+"@externs/preact@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@externs/preact/-/preact-1.2.1.tgz#edb859be9131263af5eae2cc508c0fede0750ed1"
+  integrity sha512-+Zn3nEVOngk3BiR1vH9V7AO4SvXYXEzumIpTnzwvlwkpnYlTsCsXFxDcZQraQkUOIcxQiX3uOvtWFgfctPeoyA==
 
 "@goa/koa@^1.0.2":
   version "1.1.3"
