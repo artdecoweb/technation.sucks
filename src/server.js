@@ -8,6 +8,7 @@ import logarithm from 'logarithm'
 const {
   NODE_ENV,
   HOST = 'https://technation.sucks',
+  API = 'https://api.technation.sucks',
   FRONT_END = 'https://www.technation.sucks',
   CLOSURE, // for /comments page
   SESSION_KEY,
@@ -24,7 +25,7 @@ export default async ({
   const { app, router, url, middleware } = await idio({
     cors: {
       use: true,
-      origin: PROD && [FRONT_END, HOST, 'http://localhost:5001'],
+      origin: PROD && [API, FRONT_END, HOST, 'http://localhost:5001'],
       config: { credentials: true },
     },
     logger: { use: !PROD },
