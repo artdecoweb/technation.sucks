@@ -2,12 +2,14 @@ import { makeElement } from '@svag/lib'
 import Window from '@svag/window'
 
 /**
- * @type {import('koa').Middleware}
+ * @type {import('../..').Middleware}
  */
 const counter = async (ctx) => {
-  /** @type {import('elasticsearch').Client} */
+  ctx.type = 'image/svg+xml'
+
   const client = ctx.client
   const { appName } = ctx
+
   const { aggregations: {
     distinct_ips: { value: count },
   } } = await client.search({
@@ -53,6 +55,11 @@ const counter = async (ctx) => {
       },
     },
   })
+  const res = makeWindow(count)
+  ctx.body = res
+}
+
+const makeWindow = (count) => {
   const line = makeElement('text', {
     attributes: {
       'font-family': 'Lucida Sans Typewriter,Lucida Console,monaco,Bitstream Vera Sans Mono,monospace',
@@ -71,6 +78,7 @@ const counter = async (ctx) => {
     },
     content: 'that Tech Nation sucks',
   })
+
   const res = Window({
     title: 'Views',
     width: 165,
@@ -79,8 +87,6 @@ const counter = async (ctx) => {
     content: [line, line2],
     noShadow: true,
   })
-  ctx.type = 'image/svg+xml'
-  ctx.body = res
 }
 
 export default counter

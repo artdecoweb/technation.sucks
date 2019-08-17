@@ -1,3 +1,7 @@
 require('alamode')()
-process.env.NODE_ENV != 'production' && require('@demimonde/dotenv')()
+const dotenv = require('@demimonde/dotenv')
+if (process.env.NODE_ENV != 'production') {
+  dotenv()
+  dotenv({ name: '.settings' })
+}
 require('./app')

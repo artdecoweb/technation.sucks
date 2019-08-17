@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@a-la/jsx": "1.6.0",
-    "@demimonde/dotenv": "1.0.0",
+    "@demimonde/dotenv": "1.1.0",
     "@externs/preact": "1.2.1",
     "@typedefs/goa": "^0.0.5",
     "@wrote/clone": "1.2.1",

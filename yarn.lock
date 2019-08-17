@@ -30,10 +30,10 @@
   resolved "https://registry.yarnpkg.com/@artdeco/clean-stack/-/clean-stack-1.1.1.tgz#0a68b9a061b5076ebaf948c150ea26d09c1e753f"
   integrity sha512-q5lO3vGUo0WgkSqzgzjL0HQdA9t2HzQqZISuVuQWMh9xqLuiLFP/ZTsxFc8vpMl7mNpGk7Mm0OeyFQ+Evrp0Cw==
 
-"@demimonde/dotenv@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@demimonde/dotenv/-/dotenv-1.0.0.tgz#73d745a6189011a1493761d2f68833436d7e69ca"
-  integrity sha512-cUC9gtaGpvv6BM1BoT6cUaOfL50J9rPK8vGjLdWbJUSdx+XQNY0uXXK4oJ6ILmIfYjgcj1LfJLL7fPw0JOzI7A==
+"@demimonde/dotenv@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@demimonde/dotenv/-/dotenv-1.1.0.tgz#4043eda753d117ca793a0810bc6d2ec17c749758"
+  integrity sha512-Guh4n1Z82gTetkyHj5bHP2vmXy8ViKsesXBg8XcJPFaJdcPsDDJtVYtsEzvL2sP5k+ManovEYyHiW4l0yAiSTA==
 
 "@depack/detect@^1.0.2":
   version "1.1.0"
