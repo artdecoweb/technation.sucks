@@ -5,10 +5,10 @@
   <import from="@typedefs/goa" ns="_goa" name="Middleware"/>
 
   <type record name="Auth">
-    <prop name="linkedin_user" type="{ profilePicture: string, firstName: string, lastName: string, id: string }">User Info.</prop>
-    <prop name="github_user" type="_idio.GithubUser">
+    <prop name="linkedin_user" type="{ profilePicture: string, firstName: string, lastName: string, id: string }" opt>User Info.</prop>
+    <prop name="github_user" type="_idio.GithubUser" opt>
       GitHub User.
     </prop>
-    <prop string name="csrf">The CSRF token.</prop>
+    <prop string name="csrf" opt>The CSRF token.</prop>
   </type>
 </types>

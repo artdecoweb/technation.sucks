@@ -59,10 +59,10 @@
   resolved "https://registry.yarnpkg.com/@depack/split/-/split-1.0.0.tgz#37fea28d9bc6f01e5a2da87d393f402781bb7e99"
   integrity sha512-PNJPl01VFMKtyN7qBZ2cds4N/lO2KvzLrR7JamODFiuuL2X8mGoTKp1SI8fxlT2MwLV8mScCUKn55QPwsUX7iA==
 
-"@externs/preact@1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@externs/preact/-/preact-1.2.1.tgz#edb859be9131263af5eae2cc508c0fede0750ed1"
-  integrity sha512-+Zn3nEVOngk3BiR1vH9V7AO4SvXYXEzumIpTnzwvlwkpnYlTsCsXFxDcZQraQkUOIcxQiX3uOvtWFgfctPeoyA==
+"@externs/preact@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@externs/preact/-/preact-1.2.3.tgz#9b16caa8241590b343ba56d5c05b64aa46c4ac4e"
+  integrity sha512-NeeM0niYJtzS3+PME9Wdl88A3a02iwXiib55ZJ6vtgvb87mnegRMjsUdhoJOKaOtLkfMnBFfJxdvqBIxwaLohA==
 
 "@goa/koa@^1.0.2":
   version "1.1.3"
@@ -108,10 +108,10 @@
     resolve-dependency "^1.0.2"
     restream "^3.6.0"
 
-"@idio/github@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@idio/github/-/github-1.0.2.tgz#3216742d3d6ac7895fb8fe42628cc27b41d6d71e"
-  integrity sha512-ZEWzRVS/diB+5/RCtAV+Q6QEBVods+qXxnlylwIeLHAMOYTPSKr63w8+1FfF3+c9Y4On887O8S7OvZBJfB/Ycg==
+"@idio/github@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@idio/github/-/github-1.0.4.tgz#f71956ee4bfbbd0ae4e5898988cd978f1cb70164"
+  integrity sha512-dsWXlG/k+CiHooDy6oV0ayncBBSCsbtfaiVxALF1XgwjxHI2Q9ERWPp4SIzkT2ySXboRYppoJVaOMkpqzAsypQ==
 
 "@idio/linkedin@1.4.0":
   version "1.4.0"

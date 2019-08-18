@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       loading: true,
       error: null,
-      /** @type {Auth} */
+      /** @type {!Auth} */
       auth: {},
     }
     this.pml = /** @type {function(!Event)} */(this.postMessageListener.bind(this))

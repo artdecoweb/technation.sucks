@@ -5,8 +5,8 @@ import { getUserData } from './lib'
 
 export default class CommentForm extends SubmitForm {
   /**
-   * @param {Object} props
-   * @param {Auth} props.auth
+   * @param {!Object} [props]
+   * @param {Auth} [props.auth]
    */
   render({ onChange, auth, ...props }) {
     const { formLoading, error, success } = this.state

@@ -15,7 +15,7 @@ export {}
  * @typedef {import('@idio/github').GithubUser} _idio.GithubUser
  * @typedef {import('@typedefs/goa').Middleware} _goa.Middleware
  * @typedef {Object} Auth `＠record`
- * @prop {{ profilePicture: string, firstName: string, lastName: string, id: string }} linkedin_user User Info.
- * @prop {_idio.GithubUser} github_user GitHub User.
- * @prop {string} csrf The CSRF token.
+ * @prop {{ profilePicture: string, firstName: string, lastName: string, id: string }} [linkedin_user] User Info.
+ * @prop {_idio.GithubUser} [github_user] GitHub User.
+ * @prop {string} [csrf] The CSRF token.
  */
