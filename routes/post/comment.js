@@ -13,8 +13,26 @@ export default async (ctx) => {
   }
   validatePhoto(photo, ctx.session)
 
+
   if (!comment) throw new Error('Comment is a required field.')
   const Comments = ctx.mongo.collection('comments')
+
+  const ip = ctx.request.ip
+
+  const lastHour = new Date()
+  lastHour.setHours(lastHour.getHours() - 1)
+
+  const found = await Comments.countDocuments({
+    ip,
+    date: {
+      $gt: lastHour,
+    },
+  })
+  if (found >= 5) {
+    return ctx.body = {
+      error: 'You cannot comment so often!',
+    }
+  }
 
   const res = await Comments.insertOne({
     linkedin_user,
@@ -22,6 +40,7 @@ export default async (ctx) => {
     name,
     comment,
     photo,
+    ip,
     date: new Date(),
   })
 
