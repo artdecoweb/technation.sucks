@@ -28,6 +28,8 @@ export default class List extends Component {
       }
       const { 'comments': comments, csrf } = res.json()
       this.setState({ comments: [...comments, ...this.state.comments], csrf })
+    }, {
+      credentials: 'include',
     })
   }
   render() {
@@ -71,6 +73,8 @@ const Item = ({ comment: { _id, isAuthor, name, photo, comment, date, github_use
           const { error: er } = res.json()
           if (er) alert(er)
           else if (res) onRemove(_id)
+        }, {
+          credentials: 'include',
         })
       }
       return false
