@@ -3,7 +3,7 @@ import uniqid from 'uniqid'
  * @type {import('../../').Middleware}
  */
 export default async function (ctx) {
-  const { time, url, scroll, referrer } = ctx.req.body
+  const { time, url, scroll, referrer } = ctx.request.body
   await ctx.client.create({
     index: 'telemetry.technation.sucks',
     id: uniqid(),
@@ -19,4 +19,4 @@ export default async function (ctx) {
   ctx.body = ''
 }
 
-export const middleware = ['multerSingle']
+export const middleware = ['nicer']

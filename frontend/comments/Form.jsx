@@ -20,7 +20,7 @@ export default class CommentForm extends SubmitForm {
       {picture && <Input type="hidden" name="photo" value={picture} />}
       <Input type="hidden" name="csrf" value={auth.csrf} />
       <FormGroup label="Name*" help="This will appear on the website">
-        <Input name="input" value={name} />
+        <Input name="name" value={name} />
       </FormGroup>
       <FormGroup label="GitHub" help={auth.github_user ? 'GitHub username' : 'Please sign in with GitHub'}>
         <Input name="github" disabled value={auth.github_user ? auth.github_user.html_url : null}/>

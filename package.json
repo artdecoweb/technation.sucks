@@ -42,6 +42,7 @@
   "dependencies": {
     "@depack/form": "^1.3.1",
     "@depack/render": "^1.3.2",
+    "@elastic/elasticsearch": "^6.8.2",
     "@idio/core": "1.4.0",
     "@idio/github": "^1.0.4",
     "@idio/linkedin": "1.4.0",
@@ -50,7 +51,6 @@
     "@svag/lib": "2.0.0",
     "@svag/window": "1.1.1",
     "catchment": "3.3.0",
-    "elasticsearch": "16.3.0",
     "erte": "1.2.0",
     "koa-static-cache": "5.1.2",
     "logarithm": "^1.0.1",

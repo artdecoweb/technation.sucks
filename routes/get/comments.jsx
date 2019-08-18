@@ -3,8 +3,24 @@ const Closure = ({ closure }) => {
   return (<script type="module" src="frontend/comments"></script>)
 }
 
-const Comment = ({ author, text, date, id }) => {
-  return (<div className="comment"></div>)
+/**
+ * @param {Object} opts
+ * @param {Date} opts.date
+ */
+const Comment = ({ id, isAuthor, name, photo, comment, date, github_user, linkedin_user }) => {
+  return (<div className="comment">
+    <strong>{name}</strong> on <em>{date.toLocaleString()}</em> {isAuthor && <a href="#">
+      Remove
+    </a>}
+    <div style="display:table;">
+      {photo && <div style="display:table-cell">
+        <img src={photo} width="50" />
+      </div>}
+      <div style="display:table-cell">
+        {comment}
+      </div>
+    </div>
+  </div>)
 }
 
 /**
@@ -12,23 +28,23 @@ const Comment = ({ author, text, date, id }) => {
  */
 export default async (ctx) => {
   const { CLOSURE, HOST } = ctx
-  const { csrf, user } = ctx.session
+  const { csrf, linkedin_user, github_user } = ctx.session
 
   const Comments = ctx.mongo.collection('comments')
   const comments = await Comments.find().limit(20).toArray()
-  console.log(comments)
+  const cm = comments.map((comment) => {
+    const { linkedin_user: l, github_user: g } = comment
+    if (l && linkedin_user && l.id == linkedin_user.id) {
+      comment.isAuthor = true
+    } else if (g && github_user && github_user.html_url == g.html_url) {
+      comment.isAuthor = true
+    }
+    return comment
+  })
 
   const App = (<div>
-    {user && <pre
-      dangerouslySetInnerHTML={{ __html:
-        JSON.stringify(ctx.session.user, null, 2) }} />}
-    {user && <form action="/signout" method="post">
-      <input name="csrf" type="hidden" value={csrf} />
-      <button type="submit">Sign Out</button>
-    </form>}
-    {!user && <a href="/auth/linkedin">Sign In</a>}
-
-    {comments.map(c => <Comment key={c.id} {...c} />)}
+    {cm.map(c => <Comment key={c._id} {...c} />)}
+    {cm.length && <hr/>}
 
     <div id="preact"/>
 
@@ -44,5 +60,14 @@ export default async (ctx) => {
 
   ctx.body = ctx.render(App, { title: 'Comments' })
 }
+
+// {user && <pre
+//   dangerouslySetInnerHTML={{ __html:
+//     JSON.stringify(ctx.session.user, null, 2) }} />}
+// {user && <form action="/signout" method="post">
+//   <input name="csrf" type="hidden" value={csrf} />
+//   <button type="submit">Sign Out</button>
+// </form>}
+// {!user && <a href="/auth/linkedin">Sign In</a>}
 
 export const middleware = ['session']

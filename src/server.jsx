@@ -98,17 +98,6 @@ export default async ({
         pragma: null,
       },
     },
-    multerSingle: {
-      middlewareConstructor() {
-        return async (...args) => {
-          const mw = middleware.multer.single('image')
-          await mw(...args)
-        }
-      },
-    },
-    multer: { config: {
-      dest: 'upload',
-    } },
     sc: staticCache('static'),
     static: { use: true, root: 'closure' },
     session: { keys: [SESSION_KEY] },
@@ -136,7 +125,7 @@ export default async ({
     session: middleware.session,
     client_id,
     client_secret,
-    scope: 'r_liteprofile,r_basicprofile',
+    scope: 'r_liteprofile',
   }
   linkedIn(router, {
     ...li,
@@ -163,7 +152,12 @@ export default async ({
     },
     async finish(ctx, token, scope, user) {
       ctx.session.github_token = token
-      ctx.session.github_user = user
+      ctx.session.github_user = {
+        login: user.login,
+        name: user.name,
+        avatar_url: user.avatar_url,
+        html_url: user.html_url,
+      }
 
       if (!ctx.session.csrf) ctx.session.csrf = sync(18)
       await ctx.session.manuallyCommit()
