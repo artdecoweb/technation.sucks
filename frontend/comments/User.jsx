@@ -1,7 +1,11 @@
 /* eslint-env browser */
 import callbackFetch from '../fetch'
+import { getUserData } from './lib'
 
 const signOut = (host, csrf, cb) => {
+  const formData = new FormData()
+  formData.append('csrf', csrf)
+
   callbackFetch(`${host}/signout`, (err, res) => {
     if (err) return cb(err.message)
     const { error } = res.json()
@@ -10,19 +14,25 @@ const signOut = (host, csrf, cb) => {
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ csrf }),
+    body: formData,
     credentials: 'include',
   })
 }
 
-const User = ({ user: {
-  profilePicture, firstName, lastName,
-}, csrf, onSignout = () => {}, host }) => {
+/**
+ * @param {Object} opts
+ * @param {Auth} opts.auth
+ */
+const User = ( { auth, onSignout = () => {}, host }) => {
+  const { linkedin_user, github_user, csrf } = auth
+  if (!linkedin_user && !github_user) return null
+
+  const { picture, name } = getUserData(auth)
+
   return (<div>
-    <img src={profilePicture} width="50"/>
-    Hello, {firstName} {lastName}!
+    <img src={picture} width="50"/>
+    Hello, {name}!{' '}
     <a href="#" onClick={(e) => {
       e.preventDefault()
       signOut(host, csrf, (err) => {
@@ -35,3 +45,8 @@ const User = ({ user: {
 }
 
 export default User
+
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../..').Auth} Auth
+ */

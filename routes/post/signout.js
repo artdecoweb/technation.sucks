@@ -1,6 +1,9 @@
+/**
+ * @type {import('../../').Middleware}
+ */
 export default (ctx) => {
-  const { csrf, user } = ctx.session
-  if (!user) {
+  const { csrf } = ctx.session
+  if (!csrf) {
     ctx.body = { error: 'not signed in' }
     ctx.status = 400
     return
@@ -8,7 +11,7 @@ export default (ctx) => {
   const { csrf: c } = ctx.request.body
   if (csrf != c) {
     ctx.body = { error: 'invalid csrf token' }
-    ctx.body = 401
+    ctx.status = 401
     return
   }
   ctx.session = null
@@ -16,4 +19,4 @@ export default (ctx) => {
 }
 
 export const middleware = (route) =>
-  ['session', 'bodyparser', route]
+  ['session', 'nicer', route]

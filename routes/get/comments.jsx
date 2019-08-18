@@ -3,12 +3,20 @@ const Closure = ({ closure }) => {
   return (<script type="module" src="frontend/comments"></script>)
 }
 
+const Comment = ({ author, text, date, id }) => {
+  return (<div className="comment"></div>)
+}
+
 /**
  * @type {import('../..').Middleware}
  */
-export default (ctx) => {
+export default async (ctx) => {
   const { CLOSURE, HOST } = ctx
   const { csrf, user } = ctx.session
+
+  const Comments = ctx.mongo.collection('comments')
+  const comments = await Comments.find().limit(20).toArray()
+  console.log(comments)
 
   const App = (<div>
     {user && <pre
@@ -19,6 +27,8 @@ export default (ctx) => {
       <button type="submit">Sign Out</button>
     </form>}
     {!user && <a href="/auth/linkedin">Sign In</a>}
+
+    {comments.map(c => <Comment key={c.id} {...c} />)}
 
     <div id="preact"/>
 

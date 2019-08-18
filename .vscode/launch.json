@@ -42,6 +42,9 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Server",
+      "env": {
+        "DEBUG": "koa-session:context,koa-session",
+      },
       "skipFiles": [
         "<node_internals>/**/*.js"
       ],

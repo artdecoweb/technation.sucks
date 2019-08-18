@@ -1,11 +1,30 @@
 import idio from '@idio/core'
+import { sync } from 'uid-safe'
 import render from '@depack/render'
 import initRoutes, { watchRoutes } from '@idio/router'
 import staticCache from 'koa-static-cache'
 import linkedIn from '@idio/linkedin'
-import { makeLinkedinFinish } from './lib'
+import github from '@idio/github'
+import { getUser } from '@idio/linkedin'
+// import { makeLinkedinFinish } from './lib'
 import logarithm from 'logarithm'
+import { collect } from 'catchment'
+import Nicer from 'nicer'
 import DefaultLayout from '../layout'
+
+function getBoundary(req) {
+  const contentType = req.headers['content-type']
+  if (!contentType) {
+    throw new Error('Content-type not found')
+  }
+  let boundary = /; boundary=(.+)/.exec(contentType)
+  if (!boundary) {
+    throw new Error('boundary not found')
+  }
+
+  ([, boundary] = boundary)
+  return boundary
+}
 
 const {
   NODE_ENV,
@@ -22,7 +41,7 @@ const PROD = NODE_ENV == 'production'
  */
 export default async ({
   client, port, client_id, client_secret,
-  watch = !PROD, elastic,
+  watch = !PROD, elastic, Mongo, github_id, github_secret,
 }) => {
   const { app, router, url, middleware } = await idio({
     cors: {
@@ -30,7 +49,7 @@ export default async ({
       origin: PROD && [API, FRONT_END, HOST, 'http://localhost:5001'],
       config: { credentials: true },
     },
-    logger: { use: !PROD },
+    // logger: { use: !PROD },
     compress: { use: true },
     logarithm: {
       middlewareConstructor() {
@@ -41,6 +60,38 @@ export default async ({
         return l
       },
       use: true,
+    },
+    nicer: {
+      middlewareConstructor() {
+        /** @type {import('@typedefs/goa').Middleware} */
+        return async (ctx, next) => {
+          const boundary = getBoundary(ctx.req)
+          const nicer = new Nicer({ boundary })
+          ctx.req.pipe(nicer)
+          const p = []
+          await new Promise((r, j) => {
+            nicer
+              .on('data', ({ header, stream }) => {
+                const collected = collect(stream).then((data) => {
+                  const s = header.toString()
+                  const n = /Content-Disposition: form-data; name="(.+)"/.exec(s)
+                  if (!n) throw new Error('Field name not found')
+                  const [,name] = n
+                  return { name, data }
+                })
+                p.push(collected)
+              })
+              .on('end', r)
+              .on('error', j)
+          })
+          const body = await Promise.all(p)
+          ctx.request.body = body.reduce((acc, { name, data }) => {
+            acc[name] = data
+            return acc
+          }, {})
+          await next()
+        }
+      },
     },
     frontend: {
       config: {
@@ -65,6 +116,7 @@ export default async ({
   }, { port })
 
   Object.assign(app.context, {
+    mongo: Mongo.db(),
     prod: PROD,
     HOST: PROD ? HOST : url,
     CLOSURE: PROD || CLOSURE,
@@ -89,15 +141,35 @@ export default async ({
   }
   linkedIn(router, {
     ...li,
-    finish: makeLinkedinFinish('/comments'),
-  })
-  linkedIn(router, {
-    ...li,
     error(ctx, error) {
+      console.log('Linkedin error %s', error)
       ctx.redirect(`/callback?error=${error}`)
     },
     path: '/linkedin',
-    finish: makeLinkedinFinish('/callback'),
+    async finish(ctx, token, user) {
+      ctx.session.linkedin_token = token
+      ctx.session.linkedin_user = getUser(user)
+      if (!ctx.session.csrf) ctx.session.csrf = sync(18)
+      ctx.redirect('/callback')
+    },
+  })
+  github(app, {
+    session: middleware.session,
+    client_id: github_id,
+    client_secret: github_secret,
+    path: '/github',
+    error(ctx, error, desc) {
+      console.log('Github error %s %s', error, desc)
+      ctx.redirect(`/callback?error=${error}`)
+    },
+    async finish(ctx, token, scope, user) {
+      ctx.session.github_token = token
+      ctx.session.github_user = user
+
+      if (!ctx.session.csrf) ctx.session.csrf = sync(18)
+      await ctx.session.manuallyCommit()
+      ctx.redirect('/callback')
+    },
   })
   const w = await initRoutes(router, 'routes', {
     middleware,

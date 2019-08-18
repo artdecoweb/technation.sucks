@@ -1,0 +1,14 @@
+<types>
+  <import from="elasticsearch" name="Client"/>
+  <import from="mongodb" name="Db"/>
+  <import from="@idio/github" ns="_idio" name="GithubUser"/>
+  <import from="@typedefs/goa" ns="_goa" name="Middleware"/>
+
+  <type record name="Auth">
+    <prop name="linkedin_user" type="{ profilePicture: string, firstName: string, lastName: string, id: string }">User Info.</prop>
+    <prop name="github_user" type="_idio.GithubUser">
+      GitHub User.
+    </prop>
+    <prop string name="csrf">The CSRF token.</prop>
+  </type>
+</types>

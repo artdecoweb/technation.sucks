@@ -1,16 +1,20 @@
 /* eslint-env browser */
 import { Component, render } from 'preact'
+import CommentForm from './Form'
 // import { test } from '/update.js'
 import LinkedIn from './LinkedIn'
+import GitHub from './GitHub'
 import User from './User'
 import callbackFetch from '../fetch'
 
 class App extends Component {
   constructor() {
     super()
+
     this.state = {
       loading: true,
       error: null,
+      /** @type {Auth} */
       auth: {},
     }
     this.pml = /** @type {function(!Event)} */(this.postMessageListener.bind(this))
@@ -22,7 +26,7 @@ class App extends Component {
   }
   auth() {
     this.setState({ loading: true })
-    callbackFetch(`${this.props.host}/user`, (error, res) => {
+    callbackFetch(`${this.props.host}/auth`, (error, res) => {
       this.setState({ loading: false })
       if (error) {
         return this.setState({ error })
@@ -39,26 +43,44 @@ class App extends Component {
   postMessageListener(event) {
     const { data, origin } = event
     if (origin != this.props.host) return
-    if (data == 'linkedin-signedin') this.auth()
+    if (data == 'signedin') this.auth()
   }
   componentWillUnmount() {
     window.removeEventListener('message', this.pml)
   }
   render() {
-    if (this.state.error)
-      return (<div>Error: {this.state.error}</div>)
-    if (this.state.loading)
-      return (<div>Loading...</div>)
-    if (!this.state.auth.user)
-      return (<div>
-        <LinkedIn host={this.props.host}/>
-      </div>)
     return (<div>
-      <User {...this.state.auth} onSignout={() => {
+      <AppUser error={this.state.error} loading={this.state.loading} auth={this.state.auth} host={this.props.host} onSignOut={() => {
         this.setState({ auth: {} })
-      }} host={this.props.host}/>
+      }} />
+
+      <CommentForm path={`${this.props.host}/comment`} auth={this.state.auth} />
+
     </div>)
   }
+}
+
+/**
+ * @param {Object} props
+ * @param {Auth} props.auth
+ */
+const AppUser = ({ error, loading, auth, onSignOut, host }) => {
+  if (error)
+    return (<div>Error: {error}</div>)
+  if (loading)
+    return (<div>Loading...</div>)
+  // if (!auth.user)
+  const loggedIn = auth.linkedin_user || auth.github_user
+  return (<div>
+    {!loggedIn && <span>To display the profile image and validate your GitHub profile, sign in. No email permissions are required other than default ones (no email). <a href="https://www.technation.sucks/privacy-policy.html">Privacy</a></span>}
+
+    <User auth={auth} onSignout={onSignOut} host={host}/>
+
+    {!auth.linkedin_user && <LinkedIn host={host}/>}
+    {!auth.linkedin_user && ' '}
+    {!auth.github_user && <GitHub host={host} />}
+
+  </div>)
 }
 
 {/* <button onClick={() => {
@@ -78,3 +100,8 @@ window['comments'] = ({
 }) => {
   render(<App host={host}/>, document.getElementById(container))
 }
+
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../..').Auth} Auth
+ */
