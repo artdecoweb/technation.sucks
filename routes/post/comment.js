@@ -1,7 +1,12 @@
+import { parse } from 'url'
+
 /** @type {import('../..').Middleware} */
 export default async (ctx) => {
   // debugger
   let { photo, csrf, name, comment } = ctx.request.body
+  const { referer } = ctx.request.header
+  if (!referer) throw new Error('Request came from an unknown page.')
+  const { path } = parse(referer)
 
   let linkedin_user, github_user
   if (csrf) {
@@ -42,6 +47,7 @@ export default async (ctx) => {
     photo,
     ip,
     date: new Date(),
+    path,
   })
 
   ctx.body = { ok: res.result.ok, id: res.insertedId }

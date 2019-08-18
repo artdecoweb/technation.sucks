@@ -5,6 +5,7 @@ import CommentForm from './Form'
 import LinkedIn from './LinkedIn'
 import GitHub from './GitHub'
 import User from './User'
+import List from './List'
 import callbackFetch from '../fetch'
 
 class App extends Component {
@@ -18,6 +19,8 @@ class App extends Component {
       auth: {},
     }
     this.pml = /** @type {function(!Event)} */(this.postMessageListener.bind(this))
+
+    this.list = null
 
     window.addEventListener('message', this.pml, false)
   }
@@ -54,7 +57,16 @@ class App extends Component {
         this.setState({ auth: {} })
       }} />
 
-      <CommentForm path={`${this.props.host}/comment`} auth={this.state.auth} />
+      <CommentForm path={`${this.props.host}/comment`} auth={this.state.auth} submitFinish={async (res) => {
+        const { 'error': error, id } = await res.json()
+        if (!error && id) {
+          if (this.list) this.list.fetch(id)
+        }
+      }} />
+
+      <List host={this.props.host} ref={(e) => {
+        this.list = e
+      }} />
 
     </div>)
   }

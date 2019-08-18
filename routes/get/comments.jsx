@@ -7,7 +7,7 @@ const Closure = ({ closure }) => {
  * @param {Object} opts
  * @param {Date} opts.date
  */
-const Comment = ({ id, isAuthor, name, photo, comment, date, github_user, linkedin_user }) => {
+const Comment = ({ _id, isAuthor, name, photo, comment, date, github_user, linkedin_user }) => {
   return (<div className="comment">
     <strong>{name}</strong> on <em>{date.toLocaleString()}</em> {isAuthor && <a href="#">
       Remove
@@ -41,10 +41,9 @@ export default async (ctx) => {
     }
     return comment
   })
-
+  // {cm.map(c => <Comment key={c._id} {...c} />)}
+  // {cm.length && <hr/>}
   const App = (<div>
-    {cm.map(c => <Comment key={c._id} {...c} />)}
-    {cm.length && <hr/>}
 
     <div id="preact"/>
 

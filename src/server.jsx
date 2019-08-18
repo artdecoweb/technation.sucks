@@ -107,8 +107,8 @@ export default async ({
           try {
             await next()
           } catch (err) {
-            ctx.body = err.message
-            throw err
+            ctx.body = { error: err.message }
+            console.log(err.message)
           }
         }
       },
