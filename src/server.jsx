@@ -112,7 +112,6 @@ export default async ({
     sc: staticCache('static'),
     static: { use: true, root: 'closure' },
     session: { keys: [SESSION_KEY] },
-    bodyparser: {},
   }, { port })
 
   Object.assign(app.context, {
