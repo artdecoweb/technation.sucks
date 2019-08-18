@@ -42,10 +42,10 @@
   dependencies:
     mismatch "^1.2.0"
 
-"@depack/form@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@depack/form/-/form-1.3.1.tgz#7774d361bfa076a6c3693c915020271fce34f782"
-  integrity sha512-UhrFpeOGb0FQIbLtFVT502QpHojNruXTWssB4e4gdKgwDh92xIX12W/Eyh9fF6a4knZEU6i6yNdwUPDEwC8zqg==
+"@depack/form@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@depack/form/-/form-1.3.2.tgz#e9e7c6deec126c52a2c847d907b4ac94c168066e"
+  integrity sha512-ElFqJtniCjy/uHcsL868fJ/GrB4RUE1+IdaanZxg+qeMTvm4sgR/AzMEhaWjNpltN04zSyApPslVpxWKvhKGOg==
   dependencies:
     unfetch "4.1.0"
 

@@ -9,7 +9,7 @@
     "spec": "yarn t test/spec",
     "mask": "yarn t test/mask",
     "test-build": "ALAMODE_ENV=test-build yarn test",
-    "frontend": "depack-dev frontend/comments -o closure/comments.js -a -H -E --package_json_entry_names module --hide_warnings_for preact --externs types/externs.js --externs node_modules/@idio/github/types/externs/user.js",
+    "compile": "depack-dev frontend/comments -o closure/comments.js -a -H -E --package_json_entry_names module --hide_warnings_for preact --externs types/externs.js --externs node_modules/@idio/github/types/externs/user.js",
     "lint": "eslint .",
     "prod": "git push prod",
     "start": "node src",
@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/artdecoweb/technation.sucks#readme",
   "dependencies": {
-    "@depack/form": "^1.3.1",
+    "@depack/form": "^1.3.2",
     "@depack/render": "^1.3.2",
     "@elastic/elasticsearch": "^6.8.2",
     "@idio/core": "1.4.0",

@@ -9,7 +9,9 @@ export default async (ctx) => {
     linkedin_user = ctx.session.linkedin_user
     github_user = ctx.session.github_user
     // { csrf: c, linkedin_user } = ctx.session
-    if (csrf != c) throw new Error('CSRF does not match.')
+    if (csrf != c) {
+      throw new Error('Security token does not match.')
+    }
   }
   validatePhoto(photo, ctx.session)
 
@@ -29,9 +31,7 @@ export default async (ctx) => {
     },
   })
   if (found >= 5) {
-    return ctx.body = {
-      error: 'You cannot comment so often!',
-    }
+    throw new Error('You cannot comment so often!')
   }
 
   const res = await Comments.insertOne({
@@ -68,4 +68,4 @@ const validatePhoto = (photo, { linkedin_user, github_user }) => {
  */
 
 export const middleware = (route) =>
-  ['session', 'nicer', route]
+  ['session', 'nicer', 'jsonErrors', route]

@@ -96,7 +96,7 @@ const AppUser = ({ error, loading, auth, onSignOut, host }) => {
 }}>Test</button> */}
 
 window['comments'] = ({
-  host = 'https://api.technation.sucks', container = 'preact',
+  'host': host = 'https://api.technation.sucks', 'container': container = 'preact',
 }) => {
   render(<App host={host}/>, document.getElementById(container))
 }

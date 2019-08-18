@@ -101,6 +101,18 @@ export default async ({
     sc: staticCache('static'),
     static: { use: true, root: 'closure' },
     session: { keys: [SESSION_KEY] },
+    jsonErrors: {
+      middlewareConstructor() {
+        return async (ctx, next) => {
+          try {
+            await next()
+          } catch (err) {
+            ctx.body = err.message
+            throw err
+          }
+        }
+      },
+    },
   }, { port })
 
   Object.assign(app.context, {

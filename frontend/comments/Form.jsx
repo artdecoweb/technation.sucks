@@ -4,6 +4,10 @@ import Form, {
 import { getUserData } from './lib'
 
 export default class CommentForm extends SubmitForm {
+  constructor() {
+    super()
+    this.fetchOptions = { credentials: 'include' }
+  }
   /**
    * @param {!Object} [props]
    * @param {Auth} [props.auth]
