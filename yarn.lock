@@ -71,10 +71,10 @@
     once "^1.4.0"
     pump "^3.0.0"
 
-"@externs/preact@1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@externs/preact/-/preact-1.2.3.tgz#9b16caa8241590b343ba56d5c05b64aa46c4ac4e"
-  integrity sha512-NeeM0niYJtzS3+PME9Wdl88A3a02iwXiib55ZJ6vtgvb87mnegRMjsUdhoJOKaOtLkfMnBFfJxdvqBIxwaLohA==
+"@externs/preact@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@externs/preact/-/preact-1.2.4.tgz#e2cd4c74e7f8e3979b222ca7ea1672714e07d1e1"
+  integrity sha512-j48BJY6w1Rkq+igEaWyiwITVLDxkPRWvx5qoxyPEljZYVKAzT6qkCtnq7FeKOBhqpOgZAvfW4ClVjcBNEAsQ2Q==
 
 "@goa/koa@^1.0.2":
   version "1.1.3"
