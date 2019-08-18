@@ -72,7 +72,7 @@ const AppUser = ({ error, loading, auth, onSignOut, host }) => {
   // if (!auth.user)
   const loggedIn = auth.linkedin_user || auth.github_user
   return (<div>
-    {!loggedIn && <span style="display:block">To display the profile image and validate your GitHub profile, sign in. No advanced permissions are required other than default ones (no email). Your public LinkedIn ID remains unknown. You will not be able to delete/edit your comment as a guest.<a href="https://www.technation.sucks/privacy-policy.html">Privacy Policy</a></span>}
+    {!loggedIn && <span style="display:block">To display the profile image and validate your GitHub profile, sign in. No advanced permissions are required other than default ones (no email). Your public LinkedIn ID remains unknown. You will not be able to delete/edit your comment as a guest. <a href="/privacy-policy.html">Privacy Policy</a></span>}
 
     <User auth={auth} onSignout={onSignOut} host={host}/>
 

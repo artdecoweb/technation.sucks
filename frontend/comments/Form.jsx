@@ -26,7 +26,7 @@ export default class CommentForm extends SubmitForm {
       <FormGroup label="Name*" help="This will appear on the website">
         <Input name="name" value={name} />
       </FormGroup>
-      <FormGroup label="GitHub" help={auth.github_user ? 'GitHub username' : 'Please sign in with GitHub'}>
+      <FormGroup label="GitHub" help={auth.github_user ? 'GitHub username, sign out to remove' : 'Please sign in with GitHub'}>
         <Input name="github" disabled value={auth.github_user ? auth.github_user.html_url : null}/>
       </FormGroup>
       <FormGroup label="Comment*" help="Please enter your opinion">
