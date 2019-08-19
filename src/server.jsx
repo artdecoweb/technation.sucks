@@ -107,8 +107,10 @@ export default async ({
           try {
             await next()
           } catch (err) {
-            ctx.body = { error: err.message }
-            console.log(err.message)
+            if (err.message.startsWith('!')) {
+              ctx.body = { error: err.message.replace('!', '') }
+              console.log(err.message)
+            } else throw err
           }
         }
       },

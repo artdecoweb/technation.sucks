@@ -5,7 +5,7 @@ export default async (ctx) => {
   // debugger
   let { photo, csrf, name, comment } = ctx.request.body
   const { referer } = ctx.request.header
-  if (!referer) throw new Error('Request came from an unknown page.')
+  if (!referer) throw new Error('!Request came from an unknown page.')
   const { path } = parse(referer)
 
   let linkedin_user, github_user
@@ -15,28 +15,40 @@ export default async (ctx) => {
     github_user = ctx.session.github_user
     // { csrf: c, linkedin_user } = ctx.session
     if (csrf != c) {
-      throw new Error('Security token does not match.')
+      throw new Error('!Security token does not match.')
     }
   }
   validatePhoto(photo, ctx.session)
 
 
-  if (!comment) throw new Error('Comment is a required field.')
+  if (!comment) throw new Error('!Comment is a required field.')
   const Comments = ctx.mongo.collection('comments')
 
   const ip = ctx.request.ip
 
   const lastHour = new Date()
   lastHour.setHours(lastHour.getHours() - 1)
+  const guest = !github_user && !linkedin_user
+
+  const $or = []
+  if (github_user) {
+    $or.push({ 'github_user.html_url': github_user.html_url })
+  }
+  if (linkedin_user) {
+    $or.push({ 'linkedin_user.id': linkedin_user.id })
+  }
+  if (guest) {
+    $or.push({ ip: ip })
+  }
 
   const found = await Comments.countDocuments({
-    ip,
+    $or,
     date: {
       $gt: lastHour,
     },
   })
   if (found >= 5) {
-    throw new Error('You cannot comment so often!')
+    throw new Error('!You cannot comment so often!')
   }
 
   const res = await Comments.insertOne({
@@ -45,7 +57,7 @@ export default async (ctx) => {
     name,
     comment,
     photo,
-    ip,
+    ...(guest ? { ip } : {}),
     date: new Date(),
     path,
   })
