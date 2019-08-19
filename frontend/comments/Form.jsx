@@ -1,7 +1,7 @@
 import Form, {
   FormGroup, Input, TextArea, SubmitButton, SubmitForm,
 } from '@depack/form'
-import { getUserData } from './lib'
+import { getUserData } from '../Auth/lib'
 
 export default class CommentForm extends SubmitForm {
   constructor() {

@@ -1,14 +1,14 @@
 /* eslint-env browser */
 import { render } from 'preact'
-import CommentForm from './Form'
-// import { test } from '/update.js'
+import CommentForm from '../comments/Form'
+import List from '../comments/List'
 import Auth from '../Auth'
 import AppUser from '../Auth/AppUser'
-import List from './List'
 
 class App extends Auth {
   constructor() {
     super()
+
     this.list = null
   }
   render() {
@@ -31,18 +31,6 @@ class App extends Auth {
     </div>)
   }
 }
-
-{/* <button onClick={() => {
-  const src = `/update.js?ts=${new Date().getTime()}`
-  const script = document.createElement('script')
-  script.type = 'module'
-  script.src = src
-  document.body.appendChild(script)
-}}>Update</button>
-<button onClick={() => {
-  // test()
-  debugger
-}}>Test</button> */}
 
 window['comments'] = ({
   'host': host = 'https://api.technation.sucks', 'container': container = 'preact',
