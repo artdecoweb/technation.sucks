@@ -1,6 +1,6 @@
 /* eslint-env browser */
 import { render } from 'preact'
-import CommentForm from '../comments/Form'
+import Form from './Form'
 import List from '../comments/List'
 import Auth from '../Auth'
 import AppUser from '../Auth/AppUser'
@@ -17,7 +17,7 @@ class App extends Auth {
         this.setState({ auth: {} })
       }} />
 
-      <CommentForm path={`${this.props.host}/comment`} auth={this.state.auth} submitFinish={async (res) => {
+      <Form host={this.props.host} path={`${this.props.host}/comment`} auth={this.state.auth} submitFinish={async (res) => {
         const { 'error': error, id } = await res.json()
         if (!error && id) {
           if (this.list) this.list.fetch(id)

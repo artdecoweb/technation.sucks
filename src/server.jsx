@@ -110,7 +110,10 @@ export default async ({
             if (err.message.startsWith('!')) {
               ctx.body = { error: err.message.replace('!', '') }
               console.log(err.message)
-            } else throw err
+            } else {
+              ctx.body = { error: 'internal server error' }
+              app.emit(err)
+            }
           }
         }
       },
