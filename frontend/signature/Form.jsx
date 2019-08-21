@@ -36,6 +36,8 @@ export default class CommentForm extends SubmitForm {
       if (npm && this.state.npm != npm) {
         this.setState({
           npmLoading: true,
+          npmFetchError: null,
+          npmCount: null,
         })
         callbackFetch(`${this.props.host}/npm?user=${npm}`, (e, res) => {
           this.setState({
@@ -65,15 +67,11 @@ export default class CommentForm extends SubmitForm {
       <Input type="hidden" name="csrf" value={auth.csrf} />
       <FormGroup label="Name*" help="This will appear on the website"
         form-row labelClassName="col-sm-2 col-md-1">
-        <div className="col-sm-10 col-md-11">
-          <Input name="name" value={name} />
-        </div>
+        <Input col-sm-10 col-md-11 name="name" value={name} />
       </FormGroup>
       <FormGroup label="Country" help="Your residence country."
         form-row labelClassName="col-sm-2 col-md-1">
-        <div className="col-sm-10 col-md-11">
-          <Input name="country" />
-        </div>
+        <Input col-sm-10 col-md-11 name="country" />
       </FormGroup>
       <FormGroup details detailsClass="mb-3" label="Organisation" help="Where you work.">
         <Input name="org" placeholder="name" className="mb-1" />
@@ -87,7 +85,7 @@ export default class CommentForm extends SubmitForm {
           ]} />
       </FormGroup>
       <FormGroup label="GitHub" help={auth.github_user ? 'GitHub username, sign out to remove.' : 'Please sign in with GitHub to fill in and verify automatically.'}>
-        <Input name="github" disabled value={auth.github_user ? auth.github_user.html_url : undefined}/>
+        <Input col-sm-10 col-md-11 name="github" disabled value={auth.github_user ? auth.github_user.html_url : undefined}/>
       </FormGroup>
       <FormGroup label="NPM" help={auth.github_user ? npmHelp : 'To add and validate your NPM, sign in with GitHub and make sure your NPM profile page links to it (<a href="https://www.npmjs.com/settings/USERNAME/profile" target="_blank">NPM Settings</a>).'} invalid={npmFetchError} valid={npmCount}>
         <Input name="npm" valid={npmCount} disabled={!auth.github_user} invalid={npmFetchError} ref={(i) => {
@@ -103,14 +101,10 @@ export default class CommentForm extends SubmitForm {
         }}/>
       </FormGroup>
       <FormGroup form-row labelClassName="col-sm-2 col-md-1" label="Title" help="E.g., Senior Software Engineer">
-        <div className="col-sm-10 col-md-11">
-          <Input name="title" />
-        </div>
+        <Input col-sm-10 col-md-11 name="title" />
       </FormGroup>
-      <FormGroup label="Experience" help="How many years of experience you have" form-row labelClassName="col-md-2 ">
-        <div className="col-md-10">
-          <Input name="experience" placeholder="3" />
-        </div>
+      <FormGroup label="Experience" help="How many years of experience you have" form-row labelClassName="col-md-2">
+        <Input col-md-10 name="experience" placeholder="3" />
       </FormGroup>
       <FormGroup label="Comment" help="Any additional information">
         <TextArea name="comment" />

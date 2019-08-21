@@ -70,6 +70,7 @@ const Item = ({ comment: { _id, isAuthor, name, photo, comment, date, github_use
       const c = confirm('Are you sure you want to delete comment?')
       if (c) {
         callbackFetch(`${host}/remove-comment?csrf=${csrf}&id=${_id}`, (error, res) => {
+          if (error) return alert(error)
           const { error: er } = res.json()
           if (er) alert(er)
           else if (res) onRemove(_id)

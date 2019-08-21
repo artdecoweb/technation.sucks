@@ -1,4 +1,3 @@
-/* eslint-env browser */
 import callbackFetch from '../fetch'
 import { getUserData } from './lib'
 
@@ -7,7 +6,7 @@ const signOut = (host, csrf, cb) => {
   formData.append('csrf', csrf)
 
   callbackFetch(`${host}/signout`, (err, res) => {
-    if (err) return cb(err.message)
+    if (err) return cb(err)
     const { error } = res.json()
     cb(error)
   }, {
