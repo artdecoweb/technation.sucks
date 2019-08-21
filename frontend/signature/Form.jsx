@@ -3,6 +3,7 @@ import Form, {
 } from '@depack/form'
 import { getUserData } from '../Auth/lib'
 import callbackFetch from '../fetch'
+import Captcha from '../Auth/Captcha'
 
 export default class CommentForm extends SubmitForm {
   constructor() {
@@ -13,10 +14,10 @@ export default class CommentForm extends SubmitForm {
     this.npmInput = null
   }
   /**
-   * @param {!Object} [props]
+   * @param {Object} [props]
    * @param {Auth} [props.auth]
    */
-  render({ onChange, auth, ...props }) {
+  render({ onChange, auth, host, ...props }) {
     const { formLoading, error, success, npmCount, npmFetchError, npmLoading } = this.state
 
     const { picture, name } = getUserData(auth)
@@ -39,7 +40,7 @@ export default class CommentForm extends SubmitForm {
           npmFetchError: null,
           npmCount: null,
         })
-        callbackFetch(`${this.props.host}/npm?user=${npm}`, (e, res) => {
+        callbackFetch(`${host}/npm?user=${npm}`, (e, res) => {
           this.setState({
             npmLoading: false,
           })
@@ -109,12 +110,21 @@ export default class CommentForm extends SubmitForm {
       <FormGroup label="Comment" help="Any additional information">
         <TextArea name="comment" />
       </FormGroup>
+      <CaptchaFormGroup host={host} auth={auth} />
       <SubmitButton loading={formLoading} type="warning"
         confirmText="Submit Data" />
       {error && `Error: ${error}`}
       {success && `Comment has been submitted!`}
     </Form>)
   }
+}
+
+const CaptchaFormGroup = ({ auth, host }) => {
+  if (auth.github_user || auth.linkedin_user) return null
+  return (<FormGroup form-row labelClassName="col-md-2" label="Captcha" help="Sign in to skip.">
+    <Input col-md-10 name="captcha-answer" />
+    <Captcha col-12 host={host}/>
+  </FormGroup>)
 }
 
 /**

@@ -29,7 +29,7 @@ const client = new Client({
       github_secret: process.env.GITHUB_SECRET,
       elastic, Mongo,
     })
-    console.log('Started on %s/comments', c(url, 'green'))
+    console.log('Started on %s/comments %s/signatures', c(url, 'green'), c(url, 'green'))
   } catch ({ stack }) {
     console.log(stack)
   }
