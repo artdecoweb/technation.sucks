@@ -1,6 +1,6 @@
-/* eslint-env browser */
 import { Component } from 'preact'
 import callbackFetch from '../fetch'
+// import fetch from 'unfetch'
 
 export default class List extends Component {
   constructor() {
@@ -62,9 +62,10 @@ const Login = ({ github_user }) => {
  * @param {Object} opts
  * @param {WebsiteComment} opts.comment
  */
-const Item = ({ comment: { _id, isAuthor, name, photo, comment, date, github_user }, onRemove, csrf, host }) => {
+const Item = ({ comment: { _id, country, isAuthor, name, photo, comment, date, github_user }, onRemove, csrf, host }) => {
   return (<div className="comment">
-    <strong>{name}</strong>{<Login github_user={github_user}/>}
+    <strong>{name || 'Anonymous'}</strong>{<Login github_user={github_user}/>}
+    {country ? ` from ${country}`: ''}
     {' '}on <em>{new Date(date).toLocaleString()}</em> {isAuthor && <a href="#" onClick={(e) => {
       e.preventDefault()
       const c = confirm('Are you sure you want to delete comment?')
@@ -84,7 +85,7 @@ const Item = ({ comment: { _id, isAuthor, name, photo, comment, date, github_use
     </a>}
     <div style="display:table;" className="CommentBlock">
       {photo && <div style="display:table-cell">
-        <img src={photo} width="50" />
+        <img style="padding-right:.5rem; border-radius:1.75rem;width:3.5rem" src={photo} />
       </div>}
       <div style="display:table-cell">
         {comment}

@@ -1,5 +1,11 @@
 import { parse } from 'url'
 import { createHash } from 'crypto'
+import countries from '../../frontend/countries'
+
+const countriesMap = countries.reduce((acc, { name, code }) => {
+  acc[code] = name
+  return acc
+}, {})
 
 const { CAPTCHA_KEY } = process.env
 
@@ -11,10 +17,17 @@ const validateCaptcha = (captchaHash, captchaAnswer) => {
   if (hash != captchaHash) throw new Error('!Incorrect captcha answer.')
 }
 
+const validateCountry = (countryCode) => {
+  if (!countryCode) return
+  const country = countriesMap[countryCode]
+  if (!country) throw new Error('!Unknown country code.')
+  return country
+}
+
 /** @type {import('../..').Middleware} */
 export default async (ctx) => {
   // debugger
-  let { photo, csrf, name, comment, 'captcha-answer': captchaAnswer, captcha } = ctx.request.body
+  let { photo, csrf, name, country_code, comment, 'captcha-answer': captchaAnswer, captcha } = ctx.request.body
   const { referer } = ctx.request.header
   if (!referer) throw new Error('!Request came from an unknown page.')
   const { path } = parse(referer)
@@ -33,6 +46,7 @@ export default async (ctx) => {
     validateCaptcha(captcha, captchaAnswer)
   }
   validatePhoto(photo, ctx.session)
+  const country = validateCountry(country_code)
 
   if (!comment) throw new Error('!Comment is a required field.')
   const Comments = ctx.mongo.collection('comments')
@@ -71,6 +85,7 @@ export default async (ctx) => {
     comment,
     photo,
     ...(guest ? { ip } : {}),
+    ...(country ? { country } : {}),
     date: new Date(),
     path,
   })

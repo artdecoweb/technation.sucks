@@ -45,7 +45,7 @@ export default async (ctx) => {
   // {cm.length && <hr/>}
   const App = (<div>
 
-    <div id="preact"/>
+    <div id="preact" className="container"/>
 
     <script src="node_modules/preact/dist/preact.umd.js"/>
     <script>{`window.h = preact.h`}</script>
