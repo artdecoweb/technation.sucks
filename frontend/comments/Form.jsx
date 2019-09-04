@@ -9,11 +9,12 @@ export default class CommentForm extends SubmitForm {
   constructor() {
     super()
     this.fetchOptions = { credentials: 'include' }
+    this.state.country_code = undefined
   }
   async componentWillMount() {
     try {
-      const res = await fetch('https://freegeoip.app/json/')
-      const { country_code } = await res.json()
+      const res = await fetch('https://freegeoip.app/json/', {})
+      const { 'country_code': country_code } = await res.json()
       if (country_code) {
         this.setState({ country_code })
       }

@@ -26,6 +26,7 @@ export {}
  * @typedef {Object} WebsiteComment
  * @prop {string} [_id] id.
  * @prop {boolean} [isAuthor] Whether the currest session user wrote this comment.
+ * @prop {string} [country] The country name.
  * @prop {string} [name] The display name.
  * @prop {string} [photo] The photo to show.
  * @prop {string} comment The text of the comment.
