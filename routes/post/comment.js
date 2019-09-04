@@ -1,9 +1,20 @@
 import { parse } from 'url'
+import { createHash } from 'crypto'
+
+const { CAPTCHA_KEY } = process.env
+
+const validateCaptcha = (captchaHash, captchaAnswer) => {
+  if (!CAPTCHA_KEY) throw new Error('!Server error: no captcha secret.')
+  if (!captchaHash) throw new Error('!Captcha ID is missing.')
+  if (!captchaAnswer) throw new Error('!Captcha answer is missing.')
+  const hash = createHash('md5').update(`${CAPTCHA_KEY}${captchaAnswer}`).digest('hex')
+  if (hash != captchaHash) throw new Error('!Incorrect captcha answer.')
+}
 
 /** @type {import('../..').Middleware} */
 export default async (ctx) => {
   // debugger
-  let { photo, csrf, name, comment } = ctx.request.body
+  let { photo, csrf, name, comment, 'captcha-answer': captchaAnswer, captcha } = ctx.request.body
   const { referer } = ctx.request.header
   if (!referer) throw new Error('!Request came from an unknown page.')
   const { path } = parse(referer)
@@ -18,8 +29,10 @@ export default async (ctx) => {
       throw new Error('!Security token does not match.')
     }
   }
+  if (!linkedin_user && !github_user) {
+    validateCaptcha(captcha, captchaAnswer)
+  }
   validatePhoto(photo, ctx.session)
-
 
   if (!comment) throw new Error('!Comment is a required field.')
   const Comments = ctx.mongo.collection('comments')

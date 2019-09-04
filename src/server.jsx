@@ -96,10 +96,13 @@ export default async ({
     frontend: {
       config: {
         pragma: null,
+        override: {
+          preact: '/node_modules/preact/src/preact.js',
+        },
       },
     },
     sc: staticCache('static'),
-    static: { use: true, root: 'closure' },
+    static: { use: true, root: 'docs' },
     session: { keys: [SESSION_KEY] },
     jsonErrors: {
       middlewareConstructor() {

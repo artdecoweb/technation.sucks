@@ -3,7 +3,8 @@ import Form, {
 } from '@depack/form'
 import { getUserData } from '../Auth/lib'
 import callbackFetch from '../fetch'
-import Captcha from '../Auth/Captcha'
+import countries from '../countries'
+import CaptchaFormGroup from '../captcha'
 
 export default class CommentForm extends SubmitForm {
   constructor() {
@@ -24,8 +25,10 @@ export default class CommentForm extends SubmitForm {
 
     let npmHelp = 'Your NPM profile name.'
     if (npmLoading) npmHelp = `Fetching your packages....`
-    else if (npmCount) npmHelp = `You've made ${npmCount} packages.`
-    else if (npmFetchError) npmHelp = `Error loading NPM: ${npmFetchError}`
+    let npmValidation
+    if (npmCount) npmValidation = `You've made ${npmCount} packages.`
+    else if (npmFetchError) npmValidation = `Error loading NPM: ${npmFetchError}`
+    if (npmValidation) npmHelp = null
 
     return (<Form {...props} onSubmit={this.submit.bind(this)} onChange={values => {
       this.reset()
@@ -67,12 +70,15 @@ export default class CommentForm extends SubmitForm {
       {picture && <Input type="hidden" name="photo" value={picture} />}
       <Input type="hidden" name="csrf" value={auth.csrf} />
       <FormGroup label="Name*" help="This will appear on the website"
-        form-row labelClassName="col-sm-2 col-md-1">
-        <Input col-sm-10 col-md-11 name="name" value={name} />
+        form-row col-2>
+        <Input col-10 name="name" value={name} />
       </FormGroup>
       <FormGroup label="Country" help="Your residence country."
-        form-row labelClassName="col-sm-2 col-md-1">
-        <Input col-sm-10 col-md-11 name="country" />
+        form-row col-2>
+        <Select col-10 name="country"
+          defaultText="select country" options={countries.map(a => {
+            return { value: a.code, title: a.name }
+          })} />
       </FormGroup>
       <FormGroup details detailsClass="mb-3" label="Organisation" help="Where you work.">
         <Input name="org" placeholder="name" className="mb-1" />
@@ -85,11 +91,11 @@ export default class CommentForm extends SubmitForm {
             { value: 'enterprise', title: 'enterprise' },
           ]} />
       </FormGroup>
-      <FormGroup label="GitHub" help={auth.github_user ? 'GitHub username, sign out to remove.' : 'Please sign in with GitHub to fill in and verify automatically.'}>
-        <Input col-sm-10 col-md-11 name="github" disabled value={auth.github_user ? auth.github_user.html_url : undefined}/>
+      <FormGroup label="GitHub" help={auth.github_user ? 'GitHub username, sign out to remove.' : 'Please sign in with GitHub to fill in and verify automatically.'} form-row col-2>
+        <Input col-10 name="github" disabled value={auth.github_user ? auth.github_user.html_url : undefined}/>
       </FormGroup>
-      <FormGroup label="NPM" help={auth.github_user ? npmHelp : 'To add and validate your NPM, sign in with GitHub and make sure your NPM profile page links to it (<a href="https://www.npmjs.com/settings/USERNAME/profile" target="_blank">NPM Settings</a>).'} invalid={npmFetchError} valid={npmCount}>
-        <Input name="npm" valid={npmCount} disabled={!auth.github_user} invalid={npmFetchError} ref={(i) => {
+      <FormGroup label="NPM" help={auth.github_user ? npmHelp : 'To add and validate your NPM, sign in with GitHub and make sure your NPM profile page links to it (<a href="https://www.npmjs.com/settings/USERNAME/profile" target="_blank">NPM Settings</a>).'} form-row col-2 invalid={npmFetchError} valid={npmCount}>
+        <Input col-10 name="npm" help={npmValidation} valid={npmCount} disabled={!auth.github_user} invalid={npmFetchError} ref={(i) => {
           this.npmInput = i
         }} onInput={(e) => {
           const value = e.currentTarget.value
@@ -101,11 +107,11 @@ export default class CommentForm extends SubmitForm {
           })
         }}/>
       </FormGroup>
-      <FormGroup form-row labelClassName="col-sm-2 col-md-1" label="Title" help="E.g., Senior Software Engineer">
-        <Input col-sm-10 col-md-11 name="title" />
+      <FormGroup form-row col-2 label="Title" help="E.g., Senior Software Engineer">
+        <Input col-10 name="title" />
       </FormGroup>
-      <FormGroup label="Experience" help="How many years of experience you have" form-row labelClassName="col-md-2">
-        <Input col-md-10 name="experience" placeholder="3" />
+      <FormGroup label="Experience" help="How many years of experience you have" form-row col-md-2>
+        <Input col-md-10 name="experience" placeholder="e.g., 3" />
       </FormGroup>
       <FormGroup label="Comment" help="Any additional information">
         <TextArea name="comment" />
@@ -117,14 +123,6 @@ export default class CommentForm extends SubmitForm {
       {success && `Comment has been submitted!`}
     </Form>)
   }
-}
-
-const CaptchaFormGroup = ({ auth, host }) => {
-  if (auth.github_user || auth.linkedin_user) return null
-  return (<FormGroup form-row labelClassName="col-md-2" label="Captcha" help="Sign in to skip.">
-    <Input col-md-10 name="captcha-answer" />
-    <Captcha col-12 host={host}/>
-  </FormGroup>)
 }
 
 /**

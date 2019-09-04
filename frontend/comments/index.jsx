@@ -17,7 +17,7 @@ class App extends Auth {
         this.setState({ auth: {} })
       }} />
 
-      <CommentForm path={`${this.props.host}/comment`} auth={this.state.auth} submitFinish={async (res) => {
+      <CommentForm host={this.props.host} path={`${this.props.host}/comment`} auth={this.state.auth} submitFinish={async (res) => {
         const { 'error': error, id } = await res.json()
         if (!error && id) {
           if (this.list) this.list.fetch(id)

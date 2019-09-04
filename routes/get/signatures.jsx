@@ -27,8 +27,10 @@ export default async (ctx) => {
 
     <div id="preact" className="container"/>
 
-    <script src="node_modules/preact/dist/preact.umd.js"/>
-    <script>{`window.h = preact.h`}</script>
+    <script type="module">
+      {`import { h } from '/node_modules/preact/src/preact'; window.h = h`}
+    </script>
+    <script type="module" src="node_modules/preact/devtools/"/>
 
     <Closure closure={CLOSURE}/>
 
@@ -39,6 +41,11 @@ export default async (ctx) => {
 
   ctx.body = ctx.render(App, { title: 'Comments' })
 }
+
+{/* <script>{`window.h = preact.h`}</script> */}
+
+{/* <script src="node_modules/preact/dist/preact.umd.js"/> */}
+
 
 // {user && <pre
 //   dangerouslySetInnerHTML={{ __html:
