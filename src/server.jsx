@@ -102,7 +102,7 @@ export default async ({
       },
     },
     sc: staticCache('static'),
-    static: { use: true, root: 'docs' },
+    static: { use: PROD, root: 'docs' },
     session: { keys: [SESSION_KEY] },
     jsonErrors: {
       middlewareConstructor() {

@@ -85,7 +85,7 @@ const Item = ({ comment: { _id, country, isAuthor, name, photo, comment, date, g
     </a>}
     <div style="display:table;" className="CommentBlock">
       {photo && <div style="display:table-cell">
-        <img style="padding-right:.5rem; border-radius:1.75rem;width:3.5rem" src={photo} />
+        <img style="margin-right:.5rem; border-radius:1.75rem;width:3.5rem" src={photo} />
       </div>}
       <div style="display:table-cell">
         {comment}
