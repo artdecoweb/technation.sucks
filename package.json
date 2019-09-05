@@ -23,6 +23,7 @@
     "externs": "typal types/externs.js",
     "build": "yarn-s d b doc",
     "e": "node example",
+    "u": "yarn-up -e @elastic/elasticsearch",
     "example/": "yarn e example/example.js"
   },
   "repository": {
