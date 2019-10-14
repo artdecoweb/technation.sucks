@@ -10,6 +10,7 @@ import { getUser } from '@idio/linkedin'
 import logarithm from 'logarithm'
 import { collect } from 'catchment'
 import Nicer from 'nicer'
+import cleanStack from '@artdeco/clean-stack'
 import DefaultLayout from '../layout'
 
 function getBoundary(req) {
@@ -115,7 +116,10 @@ export default async ({
               console.log(err.message)
             } else {
               ctx.body = { error: 'internal server error' }
-              app.emit(err)
+              err.stack = cleanStack(err.stack, {
+                ignoredModules: ['koa-compose', 'koa-router', 'koa-session'],
+              })
+              app.emit('error', err)
             }
           }
         }

@@ -7,7 +7,7 @@ export default async (ctx) => {
 
   const { page = 1, id } = ctx.request.query
   const { referer } = ctx.request.header
-  if (!referer) throw new Error('Unknown page.')
+  if (!referer) throw new Error('The client did not pass referer header.')
   const { path } = parse(referer)
 
   const skip = (page - 1) * 20
